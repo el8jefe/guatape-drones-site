@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antioquia Farm Automation</title>
+  <style>
+    /* Basic reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #050816;
+      color: #f5f5f5;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    header {
+      padding: 1rem 0 2rem;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .hero {
+      padding: 2rem 0 3rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 2rem;
+    }
+
+    .hero-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: #e5e7eb;
+      margin-bottom: 1.5rem;
+      max-width: 32rem;
+    }
+
+    .hero-tagline {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary,
+    .btn-outline {
+      padding: 0.7rem 1.3rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #22c55e, #16a34a);
+      border-color: #16a34a;
+      color: #020617;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #e5e7eb;
+      border-color: #4b5563;
+    }
+
+    .btn-outline:hover {
+      background: rgba(148, 163, 184, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .hero-card {
+      border-radius: 1rem;
+      padding: 1.3rem;
+      background: radial-gradient(circle at top left, #0f172a, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    .hero-card h3 {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-card ul {
+      list-style: none;
+    }
+
+    .hero-card li {
+      margin-bottom: 0.4rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #9ca3af;
+      margin-bottom: 0.7rem;
+    }
+
+    main section {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .section-sub {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      margin-bottom: 1.5rem;
+      max-width: 32rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2rem;
+    }
+
+    .list-block h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .list-block p {
+      font-size: 0.9rem;
+      color: #d1d5db;
+      margin-bottom: 0.7rem;
+    }
+
+    .list-block ul {
+      list-style: none;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .list-block li {
+      margin-bottom: 0.4rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.7rem;
+    }
+
+    .pill-small {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #9ca3af;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      border-radius: 0.9rem;
+      padding: 1rem;
+      background: #020617;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #e5e7eb;
+    }
+
+    .card ul {
+      list-style: none;
+    }
+
+    .card li {
+      margin-bottom: 0.4rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a5b4fc;
+      margin-bottom: 0.3rem;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+    }
+
+    .step {
+      border-radius: 0.9rem;
+      padding: 1rem;
+      background: #020617;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.9rem;
+      color: #d1d5db;
+    }
+
+    .step-number {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .step p {
+      font-size: 0.9rem;
+    }
+
+    .bullet-list {
+      list-style: none;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .bullet-list li {
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 2rem;
+    }
+
+    form {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      color: #e5e7eb;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.5rem;
+      border: 1px solid #4b5563;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 1px solid #22c55e;
+      border-color: #22c55e;
+    }
+
+    footer {
+      padding: 1.5rem 0 0.5rem;
+      font-size: 0.8rem;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      .hero-grid,
+      .two-col,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <header>
+      <div class="logo">Guatapé • Antioquia • Greenwich • Puerto Rico</div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <h1 class="hero-title">TEST – Antioquia farm automation</h1>
+          <p class="hero-sub">
+            We install agricultural drones and smart mowers so your workers press one button and the farm works itself—spraying, mowing, inspections, on repeat.
+          </p>
+          <p class="hero-tagline">
+            Built between Antioquia, Puerto Rico and Greenwich, CT. Starting on the ground in Guatapé and the Medellín region.
+          </p>
+          <div class="hero-buttons">
+            <a href="#contact" class="btn-primary">Request farm visit (Antioquia)</a>
+            <a href="https://wa.me/1234567890" target="_blank" class="btn-outline">Message Pablo on WhatsApp</a>
+          </div>
+          <p class="hero-note">
+            For serious landowners only. No hourly drone rentals.
+          </p>
+        </div>
+        <div>
+          <div class="hero-card">
+            <div class="pill">Main focus: real farm automation</div>
+            <h3>What we install</h3>
+            <ul>
+              <li>• Agricultural drones for spraying, seeding and monitoring.</li>
+              <li>• Electric robot mowers for continuous low grass.</li>
+              <li>• One-button control from your worker’s shack.</li>
+              <li>• Training, setup and ongoing support.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <section id="farm-automation">
+        <h2 class="section-title">Farm automation for serious landowners</h2>
+        <p class="section-sub">
+          If you own land in Antioquia, you don’t need more people walking with backpack sprayers. You need a system that repeats the job every day without drama.
+        </p>
+
+        <div class="two-col">
+          <div class="list-block">
+            <p>
+              We design and install automated routes with agricultural drones and electric mowers so your finca runs like a high-end country club: quiet, precise and predictable.
+            </p>
+            <ul class="bullet-list">
+              <li>• Automated drone routes for spraying, fertilizing or watering specific zones.</li>
+              <li>• Robot mowers that keep grass low around houses, gardens and entrances.</li>
+              <li>• One-button control from your worker’s shack: load the tank, swap the battery, press go.</li>
+              <li>• Full setup: mapping, programming, training your people and ongoing support.</li>
+            </ul>
+          </div>
+          <div class="list-block">
+            <h3>Typical automation targets</h3>
+            <p>We start with the jobs your workers repeat every week:</p>
+            <ul class="bullet-list">
+              <li>• Regular spraying on coffee, pasture or mixed crops.</li>
+              <li>• Mowing access roads, entrances and house surroundings.</li>
+              <li>• Routine visual inspections of slopes, fences and water points.</li>
+            </ul>
+            <div class="pill-row">
+              <div class="pill-small">Coffee & mixed crops</div>
+              <div class="pill-small">Pasture & cattle</div>
+              <div class="pill-small">Lakefront fincas</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services">
+        <h2 class="section-title">Everything drones can do for your land and buildings</h2>
+        <p class="section-sub">
+          Agriculture is the core. The rest are add-ons that make the system even more valuable.
+        </p>
+
+        <div class="card-grid">
+          <div class="card">
+            <span class="badge">Agriculture</span>
+            <h3>Field work</h3>
+            <ul>
+              <li>• Drone spraying, seeding and spot treatment on crops.</li>
+              <li>• Monitoring stress, pests or dry zones with aerial views.</li>
+              <li>• Mapping fields for better planning and inputs.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="badge">Real estate & media</span>
+            <h3>Property visuals</h3>
+            <ul>
+              <li>• Aerial photos and video of fincas, villas and country clubs.</li>
+              <li>• Full property scans with FPV-style drones for listings and inspections.</li>
+              <li>• Content packages for agents and owners.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="badge">Cleaning & maintenance</span>
+            <h3>High-reach cleaning</h3>
+            <ul>
+              <li>• Power washing building exteriors, roofs and tanks.</li>
+              <li>• Cleaning solar panels on farms and industrial roofs.</li>
+              <li>• Reducing the need for scaffolding and ladders.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="badge">Safety & emergency</span>
+            <h3>Future-ready support</h3>
+            <ul>
+              <li>• Inspecting hard-to-reach areas after storms or fires.</li>
+              <li>• Visual support for local firefighters or authorities.</li>
+              <li>• Adding new routines as your needs grow.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="regions">
+        <h2 class="section-title">Where we operate</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h3>Now: Antioquia</h3>
+            <p>
+              Focus on Guatapé, Oriente Antioqueño and the Medellín region.
+            </p>
+            <ul class="bullet-list">
+              <li>• Fincas with crops, pasture and mixed use.</li>
+              <li>• Lakefront and hillside properties.</li>
+              <li>• Owners ready to invest in automation.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Building: Puerto Rico</h3>
+            <p>
+              Power washing, real estate and farm automation projects.
+            </p>
+            <ul class="bullet-list">
+              <li>• Resorts, villas and estates.</li>
+              <li>• Solar and building cleaning.</li>
+              <li>• High-end property visuals.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Base: Greenwich, CT</h3>
+            <p>
+              Country clubs, large properties and estates in a U.S. East Coast hub.
+            </p>
+            <ul class="bullet-list">
+              <li>• Lawn and grounds automation experience.</li>
+              <li>• High-standard service mindset.</li>
+              <li>• International bridge between U.S. and Latin America.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works">
+        <h2 class="section-title">How it works</h2>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">Step 1</div>
+            <h3>Tell us about your property</h3>
+            <p>
+              You send basic info: location, hectares, crops, slopes and what you want to automate first.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">Step 2</div>
+            <h3>We design your system</h3>
+            <p>
+              We recommend the right drone setup and mowers, and show you which tasks we can automate right away.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">Step 3</div>
+            <h3>On-site installation & training</h3>
+            <p>
+              We map the land, program the routes, test the one-button control and train your worker to run the system daily.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-number">Step 4</div>
+            <h3>Ongoing support</h3>
+            <p>
+              We stay on call for updates, spare parts, route changes and new uses like cleaning or real-estate media.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="who">
+        <h2 class="section-title">Not for everyone</h2>
+
+        <p class="section-sub">
+          This is for people who want their own system on the ground, not just a one-time drone visit.
+        </p>
+
+        <ul class="bullet-list">
+          <li>• Farm owners and property managers, not “rent a drone for one hour” clients.</li>
+          <li>• Fincas in Antioquia with real surface to work: crops, pastures, mixed use.</li>
+          <li>• People willing to invest once to cut labor and gain consistency.</li>
+          <li>• Owners who want automation they can depend on every week.</li>
+        </ul>
+
+        <p style="margin-top: 0.8rem; font-size: 0.9rem; color: #e5e7eb;">
+          If you just want something cheap for one day, we’re not your team. If you want your land to run on its own, we are.
+        </p>
+      </section>
+
+      <section id="contact">
+        <h2 class="section-title">Antioquia fincas only – start here</h2>
+        <p class="section-sub">
+          Share a few details and we’ll contact you personally. No spam. No hourly rentals.
+        </p>
+
+        <div class="contact-grid">
+          <div>
+            <form>
+              <div>
+                <label for="name">Name</label>
+                <input id="name" type="text" placeholder="Your name" />
+              </div>
+
+              <div>
+                <label for="whatsapp">WhatsApp number</label>
+                <input id="whatsapp" type="text" placeholder="+57 ..." />
+              </div>
+
+              <div>
+                <label for="municipio">Municipality</label>
+                <select id="municipio">
+                  <option value="">Select...</option>
+                  <option>Guatapé</option>
+                  <option>El Peñol</option>
+                  <option>Rionegro</option>
+                  <option>Medellín</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="hectares">Approx. hectares</label>
+                <input id="hectares" type="text" placeholder="e.g. 50, 120, 300" />
+              </div>
+
+              <div>
+                <label for="focus">What do you want to automate first?</label>
+                <select id="focus">
+                  <option value="">Select...</option>
+                  <option>Spraying / fertilizing</option>
+                  <option>Mowing</option>
+                  <option>Cleaning / power washing</option>
+                  <option>Real estate / media</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="timeline">When do you want to start?</label>
+                <select id="timeline">
+                  <option value="">Select...</option>
+                  <option>Next 1–3 months</option>
+                  <option>3–6 months</option>
+                  <option>Just exploring</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="message">Anything else we should know?</label>
+                <textarea id="message" placeholder="Tell us about your land or questions"></textarea>
+              </div>
+
+              <button type="submit" class="btn-primary" style="justify-self: flex-start;">
+                Send details
+              </button>
+            </form>
+          </div>
+
+          <div>
+            <div class="card">
+              <h3>What happens after you send</h3>
+              <ul class="bullet-list">
+                <li>• We review your info and contact you personally.</li>
+                <li>• If it’s a fit, we schedule a visit or call.</li>
+                <li>• You get a clear proposal: system, price and rollout plan.</li>
+              </ul>
+              <p style="margin-top: 0.8rem; font-size: 0.85rem; color: #9ca3af;">
+                Everything is custom per finca. We start simple, then add more automation once the basics are running smoothly.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> Antioquia Drone & Automation. Built between Guatapé, Medellín, Puerto Rico and Greenwich, CT.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Set year automatically
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
