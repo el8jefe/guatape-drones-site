@@ -3,674 +3,1320 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Antioquia Farm Automation</title>
+  <title>Volar Tech — Drone Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    /* Basic reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    :root {
+      --navy:        #060e1f;
+      --navy-mid:    #0a1628;
+      --navy-card:   #0d1e36;
+      --navy-border: rgba(0, 170, 255, 0.15);
+      --blue:        #00aaff;
+      --blue-bright: #00d4ff;
+      --blue-dark:   #0055cc;
+      --white:       #f0f6ff;
+      --muted:       #5a7fa8;
+      --text-body:   #b8cfe6;
+      --accent-line: rgba(0, 170, 255, 0.3);
     }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      background: #202c39;  
-      color: #ede6e3;
-      line-height: 1.6;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    /* ── BACKGROUND GRID TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,170,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,170,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .page-wrapper {
+    /* ── GLOW ORBS ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 { width: 600px; height: 600px; background: rgba(0,100,255,0.07); top: -200px; right: -200px; }
+    .orb-2 { width: 400px; height: 400px; background: rgba(0,180,255,0.05); bottom: 20%; left: -150px; }
+
+    /* ── WRAPPER ── */
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 14, 31, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--navy-border);
+    }
+    .nav-inner {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 1.5rem;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
     }
-
-    header {
-      padding: 1rem 0 2rem;
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-
-    .logo {
+    .nav-logo svg { width: 36px; height: 36px; }
+    .nav-logo-text {
+      font-family: 'Exo 2', sans-serif;
       font-weight: 700;
-      letter-spacing: 0.06em;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      color: #6b7280;
+      font-size: 1.15rem;
+      letter-spacing: 3px;
+      color: var(--white);
+    }
+    .nav-logo-text span {
+      color: var(--blue);
+      text-shadow: 0 0 12px rgba(0,170,255,0.6);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ── LANGUAGE TOGGLE ── */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 999px;
+      overflow: hidden;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+    .lang-btn {
+      padding: 0.35rem 0.9rem;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+    }
+    .lang-btn.active {
+      background: var(--blue);
+      color: var(--navy);
+      font-weight: 700;
     }
 
+    /* ── HERO ── */
     .hero {
-      padding: 2rem 0 3rem;
-      border-bottom: 1px solid rgba(107, 114, 128, 0.25);
+      padding: 5rem 0 4rem;
+      border-bottom: 1px solid var(--navy-border);
     }
-
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 2rem;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 3rem;
+      align-items: center;
     }
-
-    .hero-title {
-      font-size: 2.4rem;
-      font-weight: 700;
+    .hero-eyebrow {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--blue);
+      text-transform: uppercase;
       margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--blue);
+    }
+    .hero-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      color: var(--white);
+    }
+    .hero-title .highlight {
+      color: var(--blue-bright);
+      text-shadow: 0 0 30px rgba(0,212,255,0.4);
+    }
     .hero-sub {
       font-size: 1.05rem;
-      color: #e5e7eb;
-      margin-bottom: 1.5rem;
-      max-width: 32rem;
+      color: var(--text-body);
+      margin-bottom: 0.8rem;
+      max-width: 30rem;
     }
-
     .hero-tagline {
-      font-size: 0.9rem;
-      color: #6b7280;
-      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
     }
-
-    .hero-buttons {
+    .hero-btns {
       display: flex;
-      gap: 1rem;
+      gap: 0.8rem;
       flex-wrap: wrap;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
     }
-
-    .btn-primary,
-    .btn-outline {
-      padding: 0.7rem 1.3rem;
-      border-radius: 999px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: all 0.15s ease;
-    }
-
     .btn-primary {
-      background: linear-gradient(to right, #5b8c5a, #5b8c5a);
-      border-color: #5b8c5a;
-      color: #020617;
-    }
-
-    .btn-primary:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: #e5e7eb;
-      border-color: #4b5563;
-    }
-
-    .btn-outline:hover {
-      background: rgba(148, 163, 184, 0.1);
-      transform: translateY(-1px);
-    }
-
-    .hero-note {
-      font-size: 0.8rem;
-      color: #6b7280;
-    }
-
-    .hero-card {
-      border-radius: 1rem;
-      padding: 1.3rem;
-      background: radial-gradient(circle at top left, #0f172a, #020617);
-      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      color: var(--white);
       font-size: 0.9rem;
-      color: #d1d5db;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+      box-shadow: 0 0 20px rgba(0,100,255,0.35);
+      letter-spacing: 0.03em;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0,170,255,0.5);
+    }
+    .btn-outline {
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--white);
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      transform: translateY(-2px);
+    }
+    .hero-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
     }
 
-    .hero-card h3 {
-      font-size: 0.95rem;
+    /* ── HERO CARD ── */
+    .hero-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 1.2rem;
+      padding: 1.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+    .hero-card-label {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #6b7280;
-      margin-bottom: 0.7rem;
-    }
-
-    .hero-card ul {
-      list-style: none;
-    }
-
-    .hero-card li {
-      margin-bottom: 0.4rem;
-    }
-
-    .pill {
-      display: inline-flex;
+      color: var(--blue);
+      margin-bottom: 1rem;
+      display: flex;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.75rem;
+    }
+    .hero-card-label::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+    }
+    .hero-card h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
       text-transform: uppercase;
-      letter-spacing: 0.07em;
-      padding: 0.25rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: #6b7280;
-      margin-bottom: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+    .hero-card ul { list-style: none; }
+    .hero-card li {
+      font-size: 0.9rem;
+      color: var(--text-body);
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(0,170,255,0.08);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .hero-card li:last-child { border-bottom: none; }
+    .hero-card li::before {
+      content: '→';
+      color: var(--blue);
+      font-size: 0.8rem;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
     }
 
-    main section {
-      padding: 2.5rem 0;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    /* ── DRONE MODELS STRIP ── */
+    .models-strip {
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--navy-border);
+    }
+    .models-label {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .models-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .model-badge {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 0.7rem;
+      padding: 0.8rem 1.4rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .model-badge:hover {
+      border-color: var(--blue);
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0,170,255,0.15);
+    }
+    .model-name {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--blue-bright);
+      text-shadow: 0 0 12px rgba(0,212,255,0.4);
+    }
+    .model-desc {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      letter-spacing: 0.04em;
     }
 
-    .section-title {
-      font-size: 1.3rem;
+    /* ── SECTIONS ── */
+    section { padding: 3.5rem 0; border-bottom: 1px solid var(--navy-border); }
+    section:last-child { border-bottom: none; }
+
+    .section-eyebrow {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue);
       margin-bottom: 0.5rem;
-      font-weight: 600;
     }
-
+    .section-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--white);
+    }
     .section-sub {
       font-size: 0.95rem;
-      color: #6b7280;
-      margin-bottom: 1.5rem;
-      max-width: 32rem;
+      color: var(--text-body);
+      max-width: 34rem;
+      margin-bottom: 2rem;
     }
 
-    .two-col {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 2rem;
-    }
+    /* ── TWO COL ── */
+    .two-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; }
 
+    /* ── CARD GRID ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+    .card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 1rem;
+      padding: 1.3rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(0,170,255,0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,50,120,0.3);
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .card:hover::before { opacity: 1; }
+    .badge {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--blue);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .card h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+    }
+    .card ul { list-style: none; }
+    .card li {
+      font-size: 0.85rem;
+      color: var(--text-body);
+      padding: 0.25rem 0;
+      display: flex;
+      gap: 0.4rem;
+      align-items: flex-start;
+    }
+    .card li::before { content: '·'; color: var(--blue); font-size: 1.2rem; line-height: 1; }
+
+    /* ── LIST BLOCK ── */
     .list-block h3 {
+      font-family: 'Exo 2', sans-serif;
       font-size: 1rem;
-      margin-bottom: 0.5rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      margin-top: 1.2rem;
+      color: var(--white);
     }
-
-    .list-block p {
+    .list-block h3:first-child { margin-top: 0; }
+    .list-block p { font-size: 0.9rem; color: var(--text-body); margin-bottom: 0.6rem; }
+    .bullet-list { list-style: none; }
+    .bullet-list li {
       font-size: 0.9rem;
-      color: #d1d5db;
-      margin-bottom: 0.7rem;
+      color: var(--text-body);
+      padding: 0.3rem 0;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .bullet-list li::before {
+      content: '→';
+      color: var(--blue);
+      position: absolute;
+      left: 0;
+      font-size: 0.75rem;
+      top: 0.42rem;
     }
 
-    .list-block ul {
-      list-style: none;
-      font-size: 0.9rem;
-      color: #e5e7eb;
+    /* ── PILL ROW ── */
+    .pill-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+    .pill-small {
+      font-size: 0.72rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--navy-border);
+      color: var(--muted);
+      letter-spacing: 0.04em;
     }
 
-    .list-block li {
+    /* ── STEPS ── */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+    .step {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 1rem;
+      padding: 1.3rem;
+      position: relative;
+    }
+    .step-number {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: rgba(0,170,255,0.15);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .step h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
       margin-bottom: 0.4rem;
     }
+    .step p { font-size: 0.85rem; color: var(--text-body); }
 
-    .pill-row {
+    /* ── CERTIFICATIONS ── */
+    .certs-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.7rem;
-    }
-
-    .pill-small {
-      font-size: 0.75rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      color: #6b7280;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1rem;
+      margin-top: 1rem;
     }
-
-    .card {
-      border-radius: 0.9rem;
-      padding: 1rem;
-      background: #020617;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      font-size: 0.9rem;
-      color: #d1d5db;
-    }
-
-    .card h3 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: #e5e7eb;
-    }
-
-    .card ul {
-      list-style: none;
-    }
-
-    .card li {
-      margin-bottom: 0.4rem;
-    }
-
-    .badge {
-      display: inline-block;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #a5b4fc;
-      margin-bottom: 0.3rem;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1rem;
-    }
-
-    .step {
-      border-radius: 0.9rem;
-      padding: 1rem;
-      background: #020617;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      font-size: 0.9rem;
-      color: #d1d5db;
-    }
-
-    .step-number {
-      font-size: 0.8rem;
-      color: #6b7280;
-      margin-bottom: 0.3rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .step h3 {
-      font-size: 1rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .step p {
-      font-size: 0.9rem;
-    }
-
-    .bullet-list {
-      list-style: none;
-      font-size: 0.9rem;
-      color: #e5e7eb;
-    }
-
-    .bullet-list li {
-      margin-bottom: 0.4rem;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 2rem;
-    }
-
-    form {
-      display: grid;
+    .cert-badge {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 0.8rem;
+      padding: 1rem 1.4rem;
+      display: flex;
+      align-items: center;
       gap: 0.8rem;
+      transition: all 0.2s;
     }
-
-    label {
+    .cert-badge:hover {
+      border-color: rgba(0,170,255,0.4);
+      box-shadow: 0 0 20px rgba(0,100,255,0.15);
+    }
+    .cert-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-dark), var(--navy));
+      border: 1px solid var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--blue-bright);
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(0,100,255,0.3);
+    }
+    .cert-info {}
+    .cert-name {
+      font-family: 'Exo 2', sans-serif;
       font-size: 0.85rem;
-      color: #e5e7eb;
-      display: block;
-      margin-bottom: 0.2rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .cert-body {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+    .cert-pending {
+      font-size: 0.65rem;
+      color: var(--blue);
+      margin-top: 0.15rem;
+      font-family: 'Exo 2', sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 0.6rem 0.7rem;
-      border-radius: 0.5rem;
-      border: 1px solid #4b5563;
-      background: #020617;
-      color: #e5e7eb;
-      font-size: 0.9rem;
+    /* ── LOCATIONS ── */
+    .locations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .location-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 1rem;
+      padding: 1.4rem;
     }
-
-    textarea {
-      min-height: 80px;
-      resize: vertical;
+    .location-tag {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--blue);
+      margin-bottom: 0.3rem;
     }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      outline: 1px solid #5b8c5a;
-      border-color: #5b8c5a;
+    .location-card h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.6rem;
     }
+    .location-card ul { list-style: none; }
+    .location-card li {
+      font-size: 0.85rem;
+      color: var(--text-body);
+      padding: 0.25rem 0;
+      display: flex;
+      gap: 0.4rem;
+    }
+    .location-card li::before { content: '·'; color: var(--blue); }
 
-    footer {
-      padding: 1.5rem 0 0.5rem;
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2.5rem; }
+    form { display: grid; gap: 0.9rem; }
+    .form-group {}
+    label {
       font-size: 0.8rem;
-      color: #6b7280;
+      color: var(--text-body);
+      display: block;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.03em;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(90,127,168,0.3);
+      background: rgba(10,22,40,0.8);
+      color: var(--white);
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    input::placeholder, textarea::placeholder { color: var(--muted); }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,170,255,0.1);
+    }
+    select option { background: var(--navy-mid); }
+    textarea { min-height: 90px; resize: vertical; }
+    .submit-btn {
+      padding: 0.85rem 2rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      color: var(--white);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 0 20px rgba(0,100,255,0.3);
+      letter-spacing: 0.04em;
+      justify-self: flex-start;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(0,170,255,0.5);
+    }
+
+    /* ── NOT FOR EVERYONE ── */
+    .not-for {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 1.2rem;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .not-for::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+    .not-for-quote {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1rem;
+      color: var(--blue-bright);
+      margin-top: 1.2rem;
+      font-style: italic;
+      border-left: 2px solid var(--blue);
+      padding-left: 1rem;
+    }
+
+    /* ── FAQ ── */
+    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 0 1.5rem;
       text-align: center;
+      border-top: 1px solid var(--navy-border);
     }
+    .footer-logo {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .footer-logo span { color: var(--blue); }
+    .footer-locs {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+    }
+    .footer-copy { font-size: 0.75rem; color: rgba(90,127,168,0.5); }
 
+    /* ── MOBILE ── */
     @media (max-width: 800px) {
-      .hero-grid,
-      .two-col,
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-title {
-        font-size: 2rem;
-      }
+      .hero-grid, .two-col, .contact-grid, .faq-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.2rem; }
+      .section-title { font-size: 1.4rem; }
+      .nav-links { display: none; }
     }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero > .wrap > .hero-grid { animation: fadeUp 0.6s ease both; }
+    .hero-eyebrow { animation: fadeUp 0.4s ease both; }
+
+    /* ── LANGUAGE SWITCHING ── */
+    [data-lang="es"] { display: none; }
+    body.lang-es [data-lang="en"] { display: none; }
+    body.lang-es [data-lang="es"] { display: block; }
+    body.lang-es span[data-lang="es"] { display: inline; }
+    body.lang-es span[data-lang="en"] { display: none; }
+    span[data-lang="es"] { display: none; }
   </style>
 </head>
 <body>
-  <div class="page-wrapper">
-    <header>
-      <div class="logo">ANTIOQUIA, COLOMBIA • GREENWICH, CONNECTICUT • PUERTO RICO</div>
-    </header>
 
-    <section class="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- ══════════ NAV ══════════ -->
+  <nav>
+    <div class="nav-inner">
+      <!-- Mini inline logo in nav -->
+      <div class="nav-logo">
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="ng"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <linearGradient id="nbg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00d4ff"/>
+              <stop offset="100%" style="stop-color:#0055cc"/>
+            </linearGradient>
+          </defs>
+          <line x1="18" y1="18" x2="18" y2="5" stroke="#1e4a7a" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="18" y1="18" x2="18" y2="31" stroke="#1e4a7a" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="18" y1="18" x2="5"  y2="18" stroke="#1e4a7a" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="18" y1="18" x2="31" y2="18" stroke="#1e4a7a" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="18" cy="5"  r="2.5" fill="#060e1f" stroke="#00aaff" stroke-width="1" filter="url(#ng)"/>
+          <circle cx="18" cy="31" r="2.5" fill="#060e1f" stroke="#00aaff" stroke-width="1" filter="url(#ng)"/>
+          <circle cx="5"  cy="18" r="2.5" fill="#060e1f" stroke="#00aaff" stroke-width="1" filter="url(#ng)"/>
+          <circle cx="31" cy="18" r="2.5" fill="#060e1f" stroke="#00aaff" stroke-width="1" filter="url(#ng)"/>
+          <ellipse cx="18" cy="5" rx="7" ry="1.8" fill="url(#nbg)" opacity="0.85" filter="url(#ng)" transform="rotate(-20,18,5)"/>
+          <ellipse cx="18" cy="5" rx="7" ry="1.8" fill="url(#nbg)" opacity="0.55" filter="url(#ng)" transform="rotate(70,18,5)"/>
+          <ellipse cx="18" cy="31" rx="7" ry="1.8" fill="url(#nbg)" opacity="0.85" filter="url(#ng)" transform="rotate(20,18,31)"/>
+          <ellipse cx="18" cy="31" rx="7" ry="1.8" fill="url(#nbg)" opacity="0.55" filter="url(#ng)" transform="rotate(110,18,31)"/>
+          <ellipse cx="5" cy="18" rx="1.8" ry="7" fill="url(#nbg)" opacity="0.85" filter="url(#ng)" transform="rotate(-20,5,18)"/>
+          <ellipse cx="5" cy="18" rx="1.8" ry="7" fill="url(#nbg)" opacity="0.55" filter="url(#ng)" transform="rotate(70,5,18)"/>
+          <ellipse cx="31" cy="18" rx="1.8" ry="7" fill="url(#nbg)" opacity="0.85" filter="url(#ng)" transform="rotate(20,31,18)"/>
+          <ellipse cx="31" cy="18" rx="1.8" ry="7" fill="url(#nbg)" opacity="0.55" filter="url(#ng)" transform="rotate(110,31,18)"/>
+          <circle cx="18" cy="18" r="4" fill="url(#nbg)" filter="url(#ng)"/>
+          <circle cx="18" cy="18" r="2" fill="#ffffff"/>
+        </svg>
+        <div class="nav-logo-text">VOLAR<span>TECH</span></div>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#services" data-lang="en">Services</a><a href="#services" data-lang="es">Servicios</a></li>
+        <li><a href="#how" data-lang="en">How it works</a><a href="#how" data-lang="es">Cómo funciona</a></li>
+        <li><a href="#certs" data-lang="en">Certifications</a><a href="#certs" data-lang="es">Certificaciones</a></li>
+        <li><a href="#contact" data-lang="en">Contact</a><a href="#contact" data-lang="es">Contacto</a></li>
+      </ul>
+
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('es')">ES</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════ HERO ══════════ -->
+  <div class="hero">
+    <div class="wrap">
       <div class="hero-grid">
         <div>
-          <h1 class="hero-title">Antioquia farm automation</h1>
-          <p class="hero-sub">
-            We install agricultural drones and smart mowers so your workers press one button and the farm works itself—spraying, mowing, inspections, on repeat.
-          </p>
-          <p class="hero-tagline">
-            Built between Antioquia, Puerto Rico and Greenwich, CT. Starting on the ground in Guatapé and the Medellín region.
-          </p>
-          <div class="hero-buttons">
-            <a href="#contact" class="btn-primary">Request farm visit (Antioquia)</a>
-            <a href="https://wa.me/12036094807" target="_blank" class="btn-outline">Message Pablo on WhatsApp</a>
+          <div class="hero-eyebrow" data-lang="en">Drone Solutions · Antioquia · Puerto Rico · Connecticut</div>
+          <div class="hero-eyebrow" data-lang="es">Soluciones con Drones · Antioquia · Puerto Rico · Connecticut</div>
+
+          <h1 class="hero-title" data-lang="en">
+            The land works itself.<br>
+            <span class="highlight">You just press go.</span>
+          </h1>
+          <h1 class="hero-title" data-lang="es">
+            La finca trabaja sola.<br>
+            <span class="highlight">Tú solo presionas un botón.</span>
+          </h1>
+
+          <p class="hero-sub" data-lang="en">We install agricultural drones and smart mowers so your workers press one button and the farm works itself — spraying, mowing, inspections, on repeat.</p>
+          <p class="hero-sub" data-lang="es">Instalamos drones agrícolas y cortadoras inteligentes para que tu finca funcione sola — fumigación, corte de pasto, inspecciones, sin parar.</p>
+
+          <p class="hero-tagline" data-lang="en">Built between Antioquia, Puerto Rico and Greenwich, CT. Starting on the ground in Guatapé and the Medellín region.</p>
+          <p class="hero-tagline" data-lang="es">Construido entre Antioquia, Puerto Rico y Greenwich, CT. Arrancando en Guatapé y la región de Medellín.</p>
+
+          <div class="hero-btns">
+            <a href="#contact" class="btn-primary">
+              <span data-lang="en">Request a farm visit</span>
+              <span data-lang="es">Solicitar visita a tu finca</span>
+            </a>
+            <a href="https://wa.me/12036094807" target="_blank" class="btn-outline">
+              <span data-lang="en">WhatsApp Pablo</span>
+              <span data-lang="es">WhatsApp a Pablo</span>
+            </a>
           </div>
-          <p class="hero-note">
-            For serious landowners only. No hourly drone rentals.
-          </p>
+          <p class="hero-note" data-lang="en">For serious landowners only. No hourly drone rentals.</p>
+          <p class="hero-note" data-lang="es">Solo para propietarios serios. Sin alquiler de drones por hora.</p>
         </div>
+
         <div>
           <div class="hero-card">
-            <div class="pill">Main focus: real farm automation</div>
-            <h3>What we install</h3>
+            <div class="hero-card-label" data-lang="en">What we install</div>
+            <div class="hero-card-label" data-lang="es">Qué instalamos</div>
             <ul>
-              <li>• Agricultural drones for spraying, seeding and monitoring.</li>
-              <li>• Electric robot mowers for continuous low grass.</li>
-              <li>• One-button control from your worker’s shack.</li>
-              <li>• Training, setup and ongoing support.</li>
+              <li data-lang="en">Agricultural drones for spraying, seeding and monitoring</li>
+              <li data-lang="es">Drones agrícolas para fumigación, siembra y monitoreo</li>
+              <li data-lang="en">Electric robot mowers for continuous low grass</li>
+              <li data-lang="es">Cortadoras robot eléctricas para pasto bajo continuo</li>
+              <li data-lang="en">One-button control from your worker's shack</li>
+              <li data-lang="es">Control de un botón desde el rancho del trabajador</li>
+              <li data-lang="en">Full training, setup and ongoing support</li>
+              <li data-lang="es">Capacitación completa, instalación y soporte continuo</li>
             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ DRONE MODELS ══════════ -->
+  <div class="models-strip">
+    <div class="wrap">
+      <div class="models-label" data-lang="en">DJI Fleet We Deploy</div>
+      <div class="models-label" data-lang="es">Flota DJI que Operamos</div>
+      <div class="models-row">
+        <div class="model-badge">
+          <div class="model-name">T30</div>
+          <div class="model-desc" data-lang="en">30L · Mid-range farms</div>
+          <div class="model-desc" data-lang="es">30L · Fincas medianas</div>
+        </div>
+        <div class="model-badge">
+          <div class="model-name">T50</div>
+          <div class="model-desc" data-lang="en">50L · Large operations</div>
+          <div class="model-desc" data-lang="es">50L · Operaciones grandes</div>
+        </div>
+        <div class="model-badge">
+          <div class="model-name">T100</div>
+          <div class="model-desc" data-lang="en">100L · Industrial scale</div>
+          <div class="model-desc" data-lang="es">100L · Escala industrial</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- ══════════ FARM AUTOMATION ══════════ -->
+    <section id="farm">
+      <div class="section-eyebrow" data-lang="en">Core Service</div>
+      <div class="section-eyebrow" data-lang="es">Servicio Principal</div>
+      <h2 class="section-title" data-lang="en">Farm automation for serious landowners</h2>
+      <h2 class="section-title" data-lang="es">Automatización para propietarios que van en serio</h2>
+      <p class="section-sub" data-lang="en">If you own land in Antioquia, you don't need more people with backpack sprayers. You need a system that repeats the job every day without drama.</p>
+      <p class="section-sub" data-lang="es">Si tenés tierra en Antioquia, no necesitás más gente con mochilas fumigadoras. Necesitás un sistema que haga el trabajo todos los días sin fallas.</p>
+
+      <div class="two-col">
+        <div class="list-block">
+          <p data-lang="en">We design and install automated routes so your finca runs like a high-end operation: quiet, precise and predictable.</p>
+          <p data-lang="es">Diseñamos e instalamos rutas automatizadas para que tu finca funcione como una operación de alto nivel: silenciosa, precisa y predecible.</p>
+          <ul class="bullet-list">
+            <li data-lang="en">Automated drone routes for spraying, fertilizing or watering specific zones</li>
+            <li data-lang="es">Rutas automáticas de drones para fumigación, fertilización o riego por zonas</li>
+            <li data-lang="en">Robot mowers that keep grass low around houses, gardens and entrances</li>
+            <li data-lang="es">Cortadoras robot que mantienen el pasto bajo alrededor de casas, jardines y entradas</li>
+            <li data-lang="en">One-button control: load the tank, swap the battery, press go</li>
+            <li data-lang="es">Control de un botón: carga el tanque, cambia la batería, y listo</li>
+            <li data-lang="en">Full setup: mapping, programming, training and ongoing support</li>
+            <li data-lang="es">Instalación completa: mapeo, programación, capacitación y soporte continuo</li>
+          </ul>
+        </div>
+        <div class="list-block">
+          <h3 data-lang="en">Typical automation targets</h3>
+          <h3 data-lang="es">Lo que automatizamos primero</h3>
+          <p data-lang="en">We start with the jobs your workers repeat every week:</p>
+          <p data-lang="es">Empezamos con las tareas que tus trabajadores repiten todas las semanas:</p>
+          <ul class="bullet-list">
+            <li data-lang="en">Regular spraying on coffee, pasture or mixed crops</li>
+            <li data-lang="es">Fumigación regular en café, pastos o cultivos mixtos</li>
+            <li data-lang="en">Mowing access roads, entrances and house surroundings</li>
+            <li data-lang="es">Corte de vías de acceso, entradas y alrededores de casas</li>
+            <li data-lang="en">Routine visual inspections of slopes, fences and water points</li>
+            <li data-lang="es">Inspecciones visuales de laderas, cercas y fuentes de agua</li>
+          </ul>
+          <div class="pill-row">
+            <div class="pill-small" data-lang="en">Coffee & mixed crops</div>
+            <div class="pill-small" data-lang="es">Café y cultivos mixtos</div>
+            <div class="pill-small" data-lang="en">Pasture & cattle</div>
+            <div class="pill-small" data-lang="es">Pastos y ganadería</div>
+            <div class="pill-small" data-lang="en">Lakefront fincas</div>
+            <div class="pill-small" data-lang="es">Fincas a orillas del lago</div>
           </div>
         </div>
       </div>
     </section>
 
-    <main>
-      <section id="farm-automation">
-        <h2 class="section-title">Farm automation for serious landowners</h2>
-        <p class="section-sub">
-          If you own land in Antioquia, you don’t need more people walking with backpack sprayers. You need a system that repeats the job every day without drama.
-        </p>
+    <!-- ══════════ SERVICES ══════════ -->
+    <section id="services">
+      <div class="section-eyebrow" data-lang="en">Full Capabilities</div>
+      <div class="section-eyebrow" data-lang="es">Capacidades Completas</div>
+      <h2 class="section-title" data-lang="en">Everything drones can do for your land</h2>
+      <h2 class="section-title" data-lang="es">Todo lo que los drones pueden hacer en tu propiedad</h2>
+      <p class="section-sub" data-lang="en">Agriculture is the core. The rest are add-ons that make the system even more valuable.</p>
+      <p class="section-sub" data-lang="es">La agricultura es el núcleo. Lo demás son servicios adicionales que hacen el sistema aún más valioso.</p>
 
-        <div class="two-col">
-          <div class="list-block">
-            <p>
-              We design and install automated routes with agricultural drones and electric mowers so your finca runs like a high-end country club: quiet, precise and predictable.
-            </p>
-            <ul class="bullet-list">
-              <li>• Automated drone routes for spraying, fertilizing or watering specific zones.</li>
-              <li>• Robot mowers that keep grass low around houses, gardens and entrances.</li>
-              <li>• One-button control from your worker’s shack: load the tank, swap the battery, press go.</li>
-              <li>• Full setup: mapping, programming, training your people and ongoing support.</li>
-            </ul>
-          </div>
-          <div class="list-block">
-            <h3>Typical automation targets</h3>
-            <p>We start with the jobs your workers repeat every week:</p>
-            <ul class="bullet-list">
-              <li>• Regular spraying on coffee, pasture or mixed crops.</li>
-              <li>• Mowing access roads, entrances and house surroundings.</li>
-              <li>• Routine visual inspections of slopes, fences and water points.</li>
-            </ul>
-            <div class="pill-row">
-              <div class="pill-small">Coffee & mixed crops</div>
-              <div class="pill-small">Pasture & cattle</div>
-              <div class="pill-small">Lakefront fincas</div>
-            </div>
+      <div class="card-grid">
+        <div class="card">
+          <span class="badge" data-lang="en">Agriculture</span>
+          <span class="badge" data-lang="es">Agricultura</span>
+          <h3 data-lang="en">Field Work</h3>
+          <h3 data-lang="es">Trabajo de Campo</h3>
+          <ul>
+            <li data-lang="en">Drone spraying, seeding and spot treatment</li>
+            <li data-lang="es">Fumigación, siembra y tratamiento localizado</li>
+            <li data-lang="en">Monitoring stress, pests or dry zones</li>
+            <li data-lang="es">Monitoreo de estrés, plagas y zonas secas</li>
+            <li data-lang="en">Mapping fields for better planning</li>
+            <li data-lang="es">Mapeo de cultivos para mejor planificación</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="badge" data-lang="en">Real Estate & Media</span>
+          <span class="badge" data-lang="es">Finca y Media</span>
+          <h3 data-lang="en">Property Visuals</h3>
+          <h3 data-lang="es">Visuales de Propiedad</h3>
+          <ul>
+            <li data-lang="en">Aerial photos and video of fincas and villas</li>
+            <li data-lang="es">Fotos y video aéreo de fincas y villas</li>
+            <li data-lang="en">Full property scans for listings and inspections</li>
+            <li data-lang="es">Escaneos completos para listings e inspecciones</li>
+            <li data-lang="en">FPV-style content for owners and agents</li>
+            <li data-lang="es">Contenido FPV para propietarios y agentes</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="badge" data-lang="en">Cleaning & Maintenance</span>
+          <span class="badge" data-lang="es">Limpieza y Mantenimiento</span>
+          <h3 data-lang="en">High-Reach Cleaning</h3>
+          <h3 data-lang="es">Limpieza en Altura</h3>
+          <ul>
+            <li data-lang="en">Power washing building exteriors and roofs</li>
+            <li data-lang="es">Lavado a presión de exteriores y techos</li>
+            <li data-lang="en">Solar panel cleaning on farms and rooftops</li>
+            <li data-lang="es">Limpieza de paneles solares en fincas y edificios</li>
+            <li data-lang="en">No scaffolding or ladders needed</li>
+            <li data-lang="es">Sin andamios ni escaleras</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="badge" data-lang="en">Safety & Inspection</span>
+          <span class="badge" data-lang="es">Seguridad e Inspección</span>
+          <h3 data-lang="en">Future-Ready Support</h3>
+          <h3 data-lang="es">Soporte Avanzado</h3>
+          <ul>
+            <li data-lang="en">Inspecting hard-to-reach areas after storms</li>
+            <li data-lang="es">Inspección de zonas difíciles tras tormentas</li>
+            <li data-lang="en">Visual support for local authorities</li>
+            <li data-lang="es">Apoyo visual para autoridades locales</li>
+            <li data-lang="en">Expanding automation as your needs grow</li>
+            <li data-lang="es">Ampliando la automatización según tus necesidades</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ CERTIFICATIONS ══════════ -->
+    <section id="certs">
+      <div class="section-eyebrow" data-lang="en">Credentials</div>
+      <div class="section-eyebrow" data-lang="es">Credenciales</div>
+      <h2 class="section-title" data-lang="en">Certified & Compliant</h2>
+      <h2 class="section-title" data-lang="es">Certificados y en Regla</h2>
+      <p class="section-sub" data-lang="en">We operate under FAA and AEROCIVIL regulations. All flights are legal, insured and documented.</p>
+      <p class="section-sub" data-lang="es">Operamos bajo las regulaciones de la FAA y AEROCIVIL. Todos los vuelos son legales, asegurados y documentados.</p>
+
+      <div class="certs-grid">
+        <div class="cert-badge">
+          <div class="cert-icon">FAA</div>
+          <div class="cert-info">
+            <div class="cert-name">FAA Part 107</div>
+            <div class="cert-body" data-lang="en">Remote Pilot Certificate · USA</div>
+            <div class="cert-body" data-lang="es">Certificado de Piloto Remoto · EE.UU.</div>
+            <div class="cert-pending" data-lang="en">In Progress</div>
+            <div class="cert-pending" data-lang="es">En proceso</div>
           </div>
         </div>
-      </section>
-
-      <section id="services">
-        <h2 class="section-title">Everything drones can do for your land and buildings</h2>
-        <p class="section-sub">
-          Agriculture is the core. The rest are add-ons that make the system even more valuable.
-        </p>
-
-        <div class="card-grid">
-          <div class="card">
-            <span class="badge">Agriculture</span>
-            <h3>Field work</h3>
-            <ul>
-              <li>• Drone spraying, seeding and spot treatment on crops.</li>
-              <li>• Monitoring stress, pests or dry zones with aerial views.</li>
-              <li>• Mapping fields for better planning and inputs.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <span class="badge">Real estate & media</span>
-            <h3>Property visuals</h3>
-            <ul>
-              <li>• Aerial photos and video of fincas, villas and country clubs.</li>
-              <li>• Full property scans with FPV-style drones for listings and inspections.</li>
-              <li>• Content packages for agents and owners.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <span class="badge">Cleaning & maintenance</span>
-            <h3>High-reach cleaning</h3>
-            <ul>
-              <li>• Power washing building exteriors, roofs and tanks.</li>
-              <li>• Cleaning solar panels on farms and industrial roofs.</li>
-              <li>• Reducing the need for scaffolding and ladders.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <span class="badge">Safety & emergency</span>
-            <h3>Future-ready support</h3>
-            <ul>
-              <li>• Inspecting hard-to-reach areas after storms or fires.</li>
-              <li>• Visual support for local firefighters or authorities.</li>
-              <li>• Adding new routines as your needs grow.</li>
-            </ul>
+        <div class="cert-badge">
+          <div class="cert-icon">UAS</div>
+          <div class="cert-info">
+            <div class="cert-name">AEROCIVIL</div>
+            <div class="cert-body" data-lang="en">Drone Operations License · Colombia</div>
+            <div class="cert-body" data-lang="es">Licencia de Operaciones con Drones · Colombia</div>
+            <div class="cert-pending" data-lang="en">In Progress</div>
+            <div class="cert-pending" data-lang="es">En proceso</div>
           </div>
         </div>
-      </section>
-
-      <section id="regions">
-        <h2 class="section-title">Where we operate</h2>
-
-        <div class="card-grid">
-          <div class="card">
-            <h3>Now: Antioquia</h3>
-            <p>
-              Focus on Guatapé, Oriente Antioqueño and the Medellín region.
-            </p>
-            <ul class="bullet-list">
-              <li>• Fincas with crops, pasture and mixed use.</li>
-              <li>• Lakefront and hillside properties.</li>
-              <li>• Owners ready to invest in automation.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>Building: Puerto Rico</h3>
-            <p>
-              Power washing, real estate and farm automation projects.
-            </p>
-            <ul class="bullet-list">
-              <li>• Resorts, villas and estates.</li>
-              <li>• Solar and building cleaning.</li>
-              <li>• High-end property visuals.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>Base: Greenwich, CT</h3>
-            <p>
-              Country clubs, large properties and estates in a U.S. East Coast hub.
-            </p>
-            <ul class="bullet-list">
-              <li>• Lawn and grounds automation experience.</li>
-              <li>• High-standard service mindset.</li>
-              <li>• International bridge between U.S. and Latin America.</li>
-            </ul>
+        <div class="cert-badge">
+          <div class="cert-icon">DJI</div>
+          <div class="cert-info">
+            <div class="cert-name">DJI Agras Certified</div>
+            <div class="cert-body" data-lang="en">T30 · T50 · T100 · Agricultural Series</div>
+            <div class="cert-body" data-lang="es">T30 · T50 · T100 · Serie Agrícola</div>
+            <div class="cert-pending" data-lang="en">In Progress</div>
+            <div class="cert-pending" data-lang="es">En proceso</div>
           </div>
         </div>
-      </section>
-
-      <section id="how-it-works">
-        <h2 class="section-title">How it works</h2>
-
-        <div class="steps">
-          <div class="step">
-            <div class="step-number">Step 1</div>
-            <h3>Tell us about your property</h3>
-            <p>
-              You send basic info: location, hectares, crops, slopes and what you want to automate first.
-            </p>
-          </div>
-          <div class="step">
-            <div class="step-number">Step 2</div>
-            <h3>We design your system</h3>
-            <p>
-              We recommend the right drone setup and mowers, and show you which tasks we can automate right away.
-            </p>
-          </div>
-          <div class="step">
-            <div class="step-number">Step 3</div>
-            <h3>On-site installation & training</h3>
-            <p>
-              We map the land, program the routes, test the one-button control and train your worker to run the system daily.
-            </p>
-          </div>
-          <div class="step">
-            <div class="step-number">Step 4</div>
-            <h3>Ongoing support</h3>
-            <p>
-              We stay on call for updates, spare parts, route changes and new uses like cleaning or real-estate media.
-            </p>
+        <div class="cert-badge">
+          <div class="cert-icon">INS</div>
+          <div class="cert-info">
+            <div class="cert-name" data-lang="en">Liability Insurance</div>
+            <div class="cert-name" data-lang="es">Seguro de Responsabilidad</div>
+            <div class="cert-body" data-lang="en">Commercial Drone Coverage · USA & Colombia</div>
+            <div class="cert-body" data-lang="es">Cobertura Comercial · EE.UU. y Colombia</div>
+            <div class="cert-pending" data-lang="en">In Progress</div>
+            <div class="cert-pending" data-lang="es">En proceso</div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="who">
-        <h2 class="section-title">Not for everyone</h2>
+    <!-- ══════════ LOCATIONS ══════════ -->
+    <section id="locations">
+      <div class="section-eyebrow" data-lang="en">Where We Operate</div>
+      <div class="section-eyebrow" data-lang="es">Dónde Operamos</div>
+      <h2 class="section-title" data-lang="en">Three markets. One team.</h2>
+      <h2 class="section-title" data-lang="es">Tres mercados. Un solo equipo.</h2>
 
-        <p class="section-sub">
-          This is for people who want their own system on the ground, not just a one-time drone visit.
-        </p>
+      <div class="locations-grid">
+        <div class="location-card">
+          <div class="location-tag" data-lang="en">Now Active</div>
+          <div class="location-tag" data-lang="es">Activo Ahora</div>
+          <h3>Antioquia, Colombia</h3>
+          <ul>
+            <li data-lang="en">Guatapé, El Peñol, Oriente Antioqueño</li>
+            <li data-lang="es">Guatapé, El Peñol, Oriente Antioqueño</li>
+            <li data-lang="en">Fincas with crops, pasture and mixed use</li>
+            <li data-lang="es">Fincas con cultivos, pastos y uso mixto</li>
+            <li data-lang="en">Lakefront and hillside properties</li>
+            <li data-lang="es">Propiedades a orillas del lago y en laderas</li>
+          </ul>
+        </div>
+        <div class="location-card">
+          <div class="location-tag" data-lang="en">Building</div>
+          <div class="location-tag" data-lang="es">En Desarrollo</div>
+          <h3>Puerto Rico</h3>
+          <ul>
+            <li data-lang="en">Power washing, real estate and farm projects</li>
+            <li data-lang="es">Lavado, finca y proyectos de bienes raíces</li>
+            <li data-lang="en">Resorts, villas and estates</li>
+            <li data-lang="es">Resorts, villas y propiedades</li>
+            <li data-lang="en">Solar and building cleaning</li>
+            <li data-lang="es">Limpieza de paneles solares y edificios</li>
+          </ul>
+        </div>
+        <div class="location-card">
+          <div class="location-tag" data-lang="en">U.S. Base</div>
+          <div class="location-tag" data-lang="es">Base EE.UU.</div>
+          <h3>Greenwich, CT</h3>
+          <ul>
+            <li data-lang="en">Country clubs and large estate properties</li>
+            <li data-lang="es">Country clubs y grandes propiedades</li>
+            <li data-lang="en">High-standard service on the East Coast</li>
+            <li data-lang="es">Servicio de alto nivel en la Costa Este</li>
+            <li data-lang="en">Bridge between U.S. and Latin America</li>
+            <li data-lang="es">Puente entre EE.UU. y Latinoamérica</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
+    <!-- ══════════ HOW IT WORKS ══════════ -->
+    <section id="how">
+      <div class="section-eyebrow" data-lang="en">The Process</div>
+      <div class="section-eyebrow" data-lang="es">El Proceso</div>
+      <h2 class="section-title" data-lang="en">How it works</h2>
+      <h2 class="section-title" data-lang="es">Cómo funciona</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">01</div>
+          <h3 data-lang="en">Tell us about your property</h3>
+          <h3 data-lang="es">Cuéntanos sobre tu propiedad</h3>
+          <p data-lang="en">Send basic info: location, hectares, crops, slopes and what you want to automate first.</p>
+          <p data-lang="es">Mandanos info básica: ubicación, hectáreas, cultivos, pendientes y qué querés automatizar primero.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">02</div>
+          <h3 data-lang="en">We design your system</h3>
+          <h3 data-lang="es">Diseñamos tu sistema</h3>
+          <p data-lang="en">We recommend the right drone setup and show you which tasks we automate right away.</p>
+          <p data-lang="es">Recomendamos el equipo adecuado y te mostramos qué tareas automatizamos de inmediato.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">03</div>
+          <h3 data-lang="en">On-site installation & training</h3>
+          <h3 data-lang="es">Instalación y capacitación en sitio</h3>
+          <p data-lang="en">We map the land, program the routes, test the one-button control and train your worker.</p>
+          <p data-lang="es">Mapeamos el terreno, programamos las rutas, probamos el control y capacitamos a tu trabajador.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">04</div>
+          <h3 data-lang="en">Ongoing support</h3>
+          <h3 data-lang="es">Soporte continuo</h3>
+          <p data-lang="en">We stay on call for updates, spare parts, route changes and new uses as you grow.</p>
+          <p data-lang="es">Seguimos disponibles para actualizaciones, repuestos, cambios de ruta y nuevos usos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ NOT FOR EVERYONE ══════════ -->
+    <section id="who">
+      <div class="section-eyebrow" data-lang="en">Who This Is For</div>
+      <div class="section-eyebrow" data-lang="es">Para Quién Es Esto</div>
+      <h2 class="section-title" data-lang="en">Not for everyone</h2>
+      <h2 class="section-title" data-lang="es">No es para todos</h2>
+      <p class="section-sub" data-lang="en">This is for people who want their own system on the ground, not just a one-time drone visit.</p>
+      <p class="section-sub" data-lang="es">Esto es para quienes quieren su propio sistema en el terreno, no solo una visita de drones.</p>
+
+      <div class="not-for">
         <ul class="bullet-list">
-          <li>• Farm owners and property managers, not “rent a drone for one hour” clients.</li>
-          <li>• Fincas in Antioquia with real surface to work: crops, pastures, mixed use.</li>
-          <li>• People willing to invest once to cut labor and gain consistency.</li>
-          <li>• Owners who want automation they can depend on every week.</li>
+          <li data-lang="en">Farm owners and property managers — not "rent a drone for one hour" clients</li>
+          <li data-lang="es">Dueños de finca y administradores de propiedad — no clientes de "alquiler de drones por una hora"</li>
+          <li data-lang="en">Fincas with real surface to work: crops, pastures, mixed use</li>
+          <li data-lang="es">Fincas con superficie real para trabajar: cultivos, pastos, uso mixto</li>
+          <li data-lang="en">People willing to invest once to cut labor and gain consistency</li>
+          <li data-lang="es">Personas dispuestas a invertir una vez para reducir mano de obra y ganar consistencia</li>
+          <li data-lang="en">Owners who want automation they can depend on every week</li>
+          <li data-lang="es">Propietarios que quieren automatización en la que puedan confiar cada semana</li>
         </ul>
+        <p class="not-for-quote" data-lang="en">"If you want something cheap for one day, we're not your team. If you want your land to run on its own — we are."</p>
+        <p class="not-for-quote" data-lang="es">"Si buscás algo barato para un día, no somos tu equipo. Si querés que tu tierra trabole sola — sí somos."</p>
+      </div>
+    </section>
 
-        <p style="margin-top: 0.8rem; font-size: 0.9rem; color: #e5e7eb;">
-          If you just want something cheap for one day, we’re not your team. If you want your land to run on its own, we are.
-        </p>
-      </section>
+    <!-- ══════════ FAQ ══════════ -->
+    <section id="faq">
+      <div class="section-eyebrow">FAQ</div>
+      <h2 class="section-title" data-lang="en">Frequently Asked Questions</h2>
+      <h2 class="section-title" data-lang="es">Preguntas Frecuentes</h2>
 
-      <section id="contact">
-        <h2 class="section-title">Antioquia fincas only – start here</h2>
-        <p class="section-sub">
-          Share a few details and we’ll contact you personally. No spam. No hourly rentals.
-        </p>
+      <div class="faq-grid">
+        <div class="list-block">
+          <h3 data-lang="en">How long does setup take?</h3>
+          <h3 data-lang="es">¿Cuánto demora la instalación?</h3>
+          <p data-lang="en">Typically 3–5 days: mapping, programming routes, training your worker, and testing the full system.</p>
+          <p data-lang="es">Generalmente 3 a 5 días: mapeo, programación de rutas, capacitación y prueba del sistema completo.</p>
 
-        <div class="contact-grid">
-          <div>
-            <form>
-              <div>
-                <label for="name">Name</label>
-                <input id="name" type="text" placeholder="Your name" />
-              </div>
+          <h3 data-lang="en">How much does it cost?</h3>
+          <h3 data-lang="es">¿Cuánto cuesta?</h3>
+          <p data-lang="en">Pricing varies by land size, crops, and automation needs. Contact us for a free consultation and custom quote.</p>
+          <p data-lang="es">El precio varía según el tamaño del terreno, los cultivos y las necesidades. Contáctanos para una consulta gratuita.</p>
 
-              <div>
-                <label for="whatsapp">WhatsApp number</label>
-                <input id="whatsapp" type="text" placeholder="+57 ..." />
-              </div>
+          <h3 data-lang="en">Do you offer maintenance?</h3>
+          <h3 data-lang="es">¿Ofrecen mantenimiento?</h3>
+          <p data-lang="en">Yes. Ongoing support, spare parts, route adjustments and maintenance visits. Your system stays running.</p>
+          <p data-lang="es">Sí. Soporte continuo, repuestos, ajustes de rutas y visitas de mantenimiento. Tu sistema sigue funcionando.</p>
+        </div>
+        <div class="list-block">
+          <h3 data-lang="en">What crops can you handle?</h3>
+          <h3 data-lang="es">¿Con qué cultivos trabajan?</h3>
+          <p data-lang="en">Coffee, pasture, mixed crops, vegetables and more. Our drones handle spraying, fertilizing, seeding and monitoring.</p>
+          <p data-lang="es">Café, pastos, cultivos mixtos, verduras y más. Nuestros drones hacen fumigación, fertilización, siembra y monitoreo.</p>
 
-              <div>
-                <label for="municipio">Municipality</label>
-                <select id="municipio">
-                  <option value="">Select...</option>
-                  <option>Guatapé</option>
-                  <option>El Peñol</option>
-                  <option>Rionegro</option>
-                  <option>Medellín</option>
-                  <option>Other</option>
-                </select>
-              </div>
+          <h3 data-lang="en">How long to get the drone?</h3>
+          <h3 data-lang="es">¿Cuánto tarda en llegar el dron?</h3>
+          <p data-lang="en">45–60 days from order to delivery. Setup and training take 3–5 more days. Operational in about 2 months.</p>
+          <p data-lang="es">45 a 60 días desde el pedido hasta la entrega. La instalación toma 3 a 5 días más. Operativo en unos 2 meses.</p>
 
-              <div>
-                <label for="hectares">Approx. hectares</label>
-                <input id="hectares" type="text" placeholder="e.g. 50, 120, 300" />
-              </div>
+          <h3 data-lang="en">Can you handle buildings and power washing?</h3>
+          <h3 data-lang="es">¿Hacen lavado de edificios?</h3>
+          <p data-lang="en">Yes. We handle farm automation, power washing, window cleaning, inspections and real estate media.</p>
+          <p data-lang="es">Sí. Hacemos automatización de fincas, lavado a presión, limpieza de ventanas, inspecciones y media inmobiliaria.</p>
+        </div>
+      </div>
+    </section>
 
-              <div>
-                <label for="focus">What do you want to automate first?</label>
-                <select id="focus">
-                  <option value="">Select...</option>
-                  <option>Spraying / fertilizing</option>
-                  <option>Mowing</option>
-                  <option>Cleaning / power washing</option>
-                  <option>Real estate / media</option>
-                </select>
-              </div>
+    <!-- ══════════ CONTACT ══════════ -->
+    <section id="contact">
+      <div class="section-eyebrow" data-lang="en">Get Started</div>
+      <div class="section-eyebrow" data-lang="es">Empecemos</div>
+      <h2 class="section-title" data-lang="en">Ready to automate your land?</h2>
+      <h2 class="section-title" data-lang="es">¿Listo para automatizar tu finca?</h2>
+      <p class="section-sub" data-lang="en">Share a few details and we'll contact you personally. No spam. No hourly rentals.</p>
+      <p class="section-sub" data-lang="es">Comparte algunos detalles y te contactamos personalmente. Sin spam. Sin alquileres por hora.</p>
 
-              <div>
-                <label for="timeline">When do you want to start?</label>
-                <select id="timeline">
-                  <option value="">Select...</option>
-                  <option>Next 1–3 months</option>
-                  <option>3–6 months</option>
-                  <option>Just exploring</option>
-                </select>
-              </div>
+      <div class="contact-grid">
+        <div>
+          <form action="https://formspree.io/f/YOUR_FORMSPREE_CODE" method="POST">
+            <div class="form-group">
+              <label for="name" data-lang="en">Name</label>
+              <label for="name" data-lang="es">Nombre</label>
+              <input id="name" type="text" name="name" placeholder="Your name" required />
+            </div>
+            <div class="form-group">
+              <label for="whatsapp" data-lang="en">WhatsApp number</label>
+              <label for="whatsapp" data-lang="es">Número de WhatsApp</label>
+              <input id="whatsapp" type="tel" name="whatsapp" placeholder="+57 300 000 0000" required />
+            </div>
+            <div class="form-group">
+              <label for="municipio" data-lang="en">Municipality</label>
+              <label for="municipio" data-lang="es">Municipio</label>
+              <select id="municipio" name="municipio">
+                <option value="" data-lang="en">Select...</option>
+                <option value="" data-lang="es">Seleccionar...</option>
+                <option>Guatapé</option>
+                <option>El Peñol</option>
+                <option>Rionegro</option>
+                <option>Medellín</option>
+                <option data-lang="en">Puerto Rico</option>
+                <option data-lang="es">Puerto Rico</option>
+                <option data-lang="en">Greenwich, CT</option>
+                <option data-lang="es">Greenwich, CT</option>
+                <option data-lang="en">Other</option>
+                <option data-lang="es">Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="hectares" data-lang="en">Approx. hectares</label>
+              <label for="hectares" data-lang="es">Hectáreas aprox.</label>
+              <input id="hectares" type="number" name="hectares" placeholder="e.g. 50, 120, 300" />
+            </div>
+            <div class="form-group">
+              <label for="focus" data-lang="en">What do you want to automate first?</label>
+              <label for="focus" data-lang="es">¿Qué querés automatizar primero?</label>
+              <select id="focus" name="focus">
+                <option value="" data-lang="en">Select...</option>
+                <option value="" data-lang="es">Seleccionar...</option>
+                <option data-lang="en">Spraying / fertilizing</option>
+                <option data-lang="es">Fumigación / fertilización</option>
+                <option data-lang="en">Mowing</option>
+                <option data-lang="es">Corte de pasto</option>
+                <option data-lang="en">Cleaning / power washing</option>
+                <option data-lang="es">Limpieza / lavado a presión</option>
+                <option data-lang="en">Real estate / media</option>
+                <option data-lang="es">Finca / media</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="timeline" data-lang="en">When do you want to start?</label>
+              <label for="timeline" data-lang="es">¿Cuándo querés empezar?</label>
+              <select id="timeline" name="timeline">
+                <option value="" data-lang="en">Select...</option>
+                <option value="" data-lang="es">Seleccionar...</option>
+                <option data-lang="en">Next 1–3 months</option>
+                <option data-lang="es">Próximos 1–3 meses</option>
+                <option data-lang="en">3–6 months</option>
+                <option data-lang="es">3–6 meses</option>
+                <option data-lang="en">Just exploring</option>
+                <option data-lang="es">Solo explorando</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message" data-lang="en">Anything else we should know?</label>
+              <label for="message" data-lang="es">¿Algo más que debamos saber?</label>
+              <textarea id="message" name="message" placeholder="Tell us about your land..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">
+              <span data-lang="en">Send details →</span>
+              <span data-lang="es">Enviar detalles →</span>
+            </button>
+          </form>
+        </div>
 
-              <div>
-                <label for="message">Anything else we should know?</label>
-                <textarea id="message" placeholder="Tell us about your land or questions"></textarea>
-              </div>
-
-              <button type="submit" class="btn-primary" style="justify-self: flex-start;">
-                Send details
-              </button>
-            </form>
+        <div>
+          <div class="card" style="margin-bottom:1rem;">
+            <h3 data-lang="en">What happens after you send</h3>
+            <h3 data-lang="es">Qué pasa después de enviar</h3>
+            <ul style="margin-top:0.6rem;">
+              <li data-lang="en">We review your info and contact you personally</li>
+              <li data-lang="es">Revisamos tu info y te contactamos personalmente</li>
+              <li data-lang="en">If it's a fit, we schedule a visit or call</li>
+              <li data-lang="es">Si encaja, agendamos una visita o llamada</li>
+              <li data-lang="en">You get a clear proposal: system, price and plan</li>
+              <li data-lang="es">Recibís una propuesta clara: sistema, precio y plan</li>
+            </ul>
+            <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);" data-lang="en">Everything is custom per finca. We start simple, then expand.</p>
+            <p style="margin-top:0.8rem; font-size:0.82rem; color:var(--muted);" data-lang="es">Todo es personalizado por finca. Empezamos simple, luego expandimos.</p>
           </div>
 
-          <div>
-            <div class="card">
-              <h3>What happens after you send</h3>
-              <ul class="bullet-list">
-                <li>• We review your info and contact you personally.</li>
-                <li>• If it’s a fit, we schedule a visit or call.</li>
-                <li>• You get a clear proposal: system, price and rollout plan.</li>
-              </ul>
-              <p style="margin-top: 0.8rem; font-size: 0.85rem; color: #6b7280;">
-                Everything is custom per finca. We start simple, then add more automation once the basics are running smoothly.
-              </p>
-            </div>
+          <div class="card">
+            <h3 data-lang="en">Prefer WhatsApp?</h3>
+            <h3 data-lang="es">¿Preferís WhatsApp?</h3>
+            <p style="font-size:0.85rem; color:var(--text-body); margin: 0.5rem 0;" data-lang="en">Message Pablo directly — fastest way to get a response.</p>
+            <p style="font-size:0.85rem; color:var(--text-body); margin: 0.5rem 0;" data-lang="es">Escríbele a Pablo directamente — la forma más rápida de obtener respuesta.</p>
+            <a href="https://wa.me/12036094807" target="_blank" class="btn-outline" style="font-size:0.85rem; padding: 0.55rem 1.2rem; display:inline-block; margin-top:0.3rem;">
+              <span data-lang="en">Open WhatsApp →</span>
+              <span data-lang="es">Abrir WhatsApp →</span>
+            </a>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <footer>
-      <p>© <span id="year"></span> Antioquia Drone & Automation. Built between Guatapé, Medellín, Puerto Rico and Greenwich, CT.</p>
-    </footer>
-  </div>
+  </div><!-- end .wrap -->
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-logo">VOLAR<span>TECH</span></div>
+      <div class="footer-locs">ANTIOQUIA · PUERTO RICO · GREENWICH CT</div>
+      <div class="footer-copy" data-lang="en">© 2025 Volar Tech. Drone Solutions. All rights reserved.</div>
+      <div class="footer-copy" data-lang="es">© 2025 Volar Tech. Soluciones con Drones. Todos los derechos reservados.</div>
+    </div>
+  </footer>
 
   <script>
-    // Set year automatically
-    document.getElementById("year").textContent = new Date().getFullYear();
+    function setLang(lang) {
+      document.body.classList.toggle('lang-es', lang === 'es');
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+      });
+    }
   </script>
+
 </body>
 </html>
