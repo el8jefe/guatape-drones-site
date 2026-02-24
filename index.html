@@ -695,7 +695,180 @@
       .hero-title { font-size: 2.2rem; }
       .section-title { font-size: 1.4rem; }
       .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 64px; left: 0; right: 0;
+        background: rgba(6,14,31,0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--navy-border);
+        padding: 1.2rem 1.5rem;
+        gap: 1rem;
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: 1rem; color: var(--text-body); }
+      .hamburger { display: flex !important; }
+      .side-nav { display: none !important; }
     }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-body);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── SIDE DOT NAV ── */
+    .side-nav {
+      position: fixed;
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 50;
+    }
+    .side-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(90,127,168,0.4);
+      border: 1px solid rgba(90,127,168,0.3);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .side-dot:hover, .side-dot.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      box-shadow: 0 0 8px rgba(0,170,255,0.6);
+    }
+    .side-dot .dot-label {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 6px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.68rem;
+      font-family: 'Exo 2', sans-serif;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .side-dot:hover .dot-label { opacity: 1; }
+
+    /* ── WHATSAPP FLOAT ── */
+    .wa-float {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 200;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .wa-float:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+    }
+    .wa-float svg { width: 28px; height: 28px; fill: white; }
+
+    /* ── SCROLL FADE ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── WHY VOLAR TECH ── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .why-card {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 1rem;
+      padding: 1.4rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .why-card:hover {
+      border-color: rgba(0,170,255,0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,50,150,0.25);
+    }
+    .why-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+    .why-card h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .why-card p { font-size: 0.82rem; color: var(--text-body); line-height: 1.5; }
+
+    /* ── CURRENCY TOGGLE ── */
+    .currency-toggle {
+      display: inline-flex;
+      align-items: center;
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 999px;
+      overflow: hidden;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.2rem;
+    }
+    .curr-btn {
+      padding: 0.3rem 0.85rem;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+    }
+    .curr-btn.active { background: var(--blue); color: var(--navy); font-weight: 700; }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
@@ -706,18 +879,52 @@
     .hero-eyebrow { animation: fadeUp 0.4s ease both; }
 
     /* ── LANGUAGE SWITCHING ── */
-    [data-lang="es"] { display: none; }
-    body.lang-es [data-lang="en"] { display: none; }
-    body.lang-es [data-lang="es"] { display: block; }
-    body.lang-es span[data-lang="es"] { display: inline; }
-    body.lang-es span[data-lang="en"] { display: none; }
-    span[data-lang="es"] { display: none; }
+    /* Hide all ES by default */
+    [data-lang="es"] { display: none !important; }
+
+    /* In ES mode: hide EN, show ES */
+    body.lang-es [data-lang="en"] { display: none !important; }
+    body.lang-es [data-lang="es"] { display: revert !important; }
+
+    /* Inline elements (span, a, button) need inline not block */
+    body.lang-es span[data-lang="es"],
+    body.lang-es a[data-lang="es"],
+    body.lang-es button[data-lang="es"] { display: inline !important; }
+
+    /* List items need flex to match card li styling */
+    body.lang-es li[data-lang="es"] { display: flex !important; }
+
+    /* Divs and sections default to block */
+    body.lang-es div[data-lang="es"],
+    body.lang-es p[data-lang="es"],
+    body.lang-es h1[data-lang="es"],
+    body.lang-es h2[data-lang="es"],
+    body.lang-es h3[data-lang="es"],
+    body.lang-es label[data-lang="es"] { display: block !important; }
   </style>
 </head>
 <body>
 
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/12036094807" target="_blank" class="wa-float" title="WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- Side Dot Nav -->
+  <nav class="side-nav" id="side-nav">
+    <div class="side-dot" onclick="jumpTo('#hero')" data-section="hero"><span class="dot-label">Home</span></div>
+    <div class="side-dot" onclick="jumpTo('#farm')" data-section="farm"><span class="dot-label">Farm</span></div>
+    <div class="side-dot" onclick="jumpTo('#battery')" data-section="battery"><span class="dot-label">System</span></div>
+    <div class="side-dot" onclick="jumpTo('#calculator')" data-section="calculator"><span class="dot-label">Calculator</span></div>
+    <div class="side-dot" onclick="jumpTo('#services')" data-section="services"><span class="dot-label">Services</span></div>
+    <div class="side-dot" onclick="jumpTo('#mowers')" data-section="mowers"><span class="dot-label">Mowers</span></div>
+    <div class="side-dot" onclick="jumpTo('#powerwash')" data-section="powerwash"><span class="dot-label">Washing</span></div>
+    <div class="side-dot" onclick="jumpTo('#how')" data-section="how"><span class="dot-label">Process</span></div>
+    <div class="side-dot" onclick="jumpTo('#contact')" data-section="contact"><span class="dot-label">Contact</span></div>
+  </nav>
 
   <!-- ══════════ NAV ══════════ -->
   <nav>
@@ -756,14 +963,21 @@
 
       <ul class="nav-links">
         <li><a href="#services" data-lang="en">Services</a><a href="#services" data-lang="es">Servicios</a></li>
+        <li><a href="#calculator" data-lang="en">ROI Calculator</a><a href="#calculator" data-lang="es">Calculadora</a></li>
+        <li><a href="#mowers" data-lang="en">Mowers</a><a href="#mowers" data-lang="es">Cortadoras</a></li>
+        <li><a href="#powerwash" data-lang="en">Power Washing</a><a href="#powerwash" data-lang="es">Lavado</a></li>
         <li><a href="#how" data-lang="en">How it works</a><a href="#how" data-lang="es">Cómo funciona</a></li>
-        <li><a href="#certs" data-lang="en">Certifications</a><a href="#certs" data-lang="es">Certificaciones</a></li>
         <li><a href="#contact" data-lang="en">Contact</a><a href="#contact" data-lang="es">Contacto</a></li>
       </ul>
 
-      <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" onclick="setLang('es')">ES</button>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <div class="lang-toggle">
+          <button class="lang-btn active" onclick="setLang('en')">English</button>
+          <button class="lang-btn" onclick="setLang('es')">Español</button>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
   </nav>
@@ -825,32 +1039,154 @@
     </div>
   </div>
 
-  <!-- ══════════ DRONE MODELS ══════════ -->
-  <div class="models-strip">
+  <!-- ══════════ DRONE FLEET ══════════ -->
+  <div class="models-strip" style="padding: 3rem 0;">
     <div class="wrap">
-      <div class="models-label" data-lang="en">DJI Fleet We Deploy</div>
-      <div class="models-label" data-lang="es">Flota DJI que Operamos</div>
-      <div class="models-row">
-        <div class="model-badge">
-          <div class="model-name">T30</div>
-          <div class="model-desc" data-lang="en">30L · Mid-range farms</div>
-          <div class="model-desc" data-lang="es">30L · Fincas medianas</div>
+      <div class="models-label" data-lang="en">DJI Agricultural Fleet — Choose Your System</div>
+      <div class="models-label" data-lang="es">Flota Agrícola DJI — Elige Tu Sistema</div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:1rem; margin-top:1.5rem;">
+
+        <!-- T10 -->
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.6rem;">
+            <div class="model-name" style="font-size:1.6rem;">T10</div>
+            <span style="font-size:0.68rem;background:rgba(0,170,255,0.1);border:1px solid var(--navy-border);border-radius:999px;padding:0.2rem 0.6rem;color:var(--blue);font-family:'Exo 2',sans-serif;letter-spacing:0.08em;" data-lang="en">Entry</span>
+            <span style="font-size:0.68rem;background:rgba(0,170,255,0.1);border:1px solid var(--navy-border);border-radius:999px;padding:0.2rem 0.6rem;color:var(--blue);font-family:'Exo 2',sans-serif;letter-spacing:0.08em;" data-lang="es">Inicio</span>
+          </div>
+          <ul>
+            <li data-lang="en">8L tank — small to mid farms</li>
+            <li data-lang="es">Tanque 8L — fincas pequeñas y medianas</li>
+            <li data-lang="en">Up to 15 acres / hour</li>
+            <li data-lang="es">Hasta 15 hectáreas / hora</li>
+            <li data-lang="en">~20 min flight per battery</li>
+            <li data-lang="es">~20 min de vuelo por batería</li>
+            <li data-lang="en">IP67 waterproof · Radar obstacle avoidance</li>
+            <li data-lang="es">IP67 resistente al agua · Radar anticolisión</li>
+            <li data-lang="en">Battery charges in 7 min</li>
+            <li data-lang="es">Batería carga en 7 min</li>
+          </ul>
+          <div style="margin-top:0.8rem;font-family:'Exo 2',sans-serif;font-size:0.78rem;color:var(--blue);">~$14,000 USD</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:0.15rem;" data-lang="en">Best for: coffee farms, gardens, small crops</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:0.15rem;" data-lang="es">Ideal para: cafetales, jardines, cultivos pequeños</div>
         </div>
-        <div class="model-badge">
-          <div class="model-name">T50</div>
-          <div class="model-desc" data-lang="en">50L · Large operations</div>
-          <div class="model-desc" data-lang="es">50L · Operaciones grandes</div>
+
+        <!-- T30 -->
+        <div class="card" style="border-color:rgba(0,170,255,0.35);box-shadow:0 0 30px rgba(0,100,255,0.15);">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.6rem;">
+            <div class="model-name" style="font-size:1.6rem;">T30</div>
+            <span style="font-size:0.68rem;background:var(--blue);border-radius:999px;padding:0.2rem 0.6rem;color:var(--navy);font-family:'Exo 2',sans-serif;font-weight:700;letter-spacing:0.08em;" data-lang="en">Most Popular</span>
+            <span style="font-size:0.68rem;background:var(--blue);border-radius:999px;padding:0.2rem 0.6rem;color:var(--navy);font-family:'Exo 2',sans-serif;font-weight:700;letter-spacing:0.08em;" data-lang="es">Más Popular</span>
+          </div>
+          <ul>
+            <li data-lang="en">30L tank — the sweet spot for most farms</li>
+            <li data-lang="es">Tanque 30L — el punto ideal para la mayoría</li>
+            <li data-lang="en">Up to 40 acres / hour · 9m spray width</li>
+            <li data-lang="es">Hasta 40 hectáreas / hora · 9m de ancho</li>
+            <li data-lang="en">16 TeeJet nozzles · precision RTK ±10cm</li>
+            <li data-lang="es">16 boquillas TeeJet · RTK de precisión ±10cm</li>
+            <li data-lang="en">3 batteries included · 1,000 cycle lifespan</li>
+            <li data-lang="es">Incluye 3 baterías · vida útil de 1,000 ciclos</li>
+            <li data-lang="en">Battery charges in 9 min · near-continuous flight</li>
+            <li data-lang="es">Batería carga en 9 min · vuelo casi continuo</li>
+          </ul>
+          <div style="margin-top:0.8rem;font-family:'Exo 2',sans-serif;font-size:0.78rem;color:var(--blue);">~$22,400 USD</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:0.15rem;" data-lang="en">Best for: 50–500 hectare farms, all crop types</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:0.15rem;" data-lang="es">Ideal para: fincas de 50–500 hectáreas, todo cultivo</div>
         </div>
-        <div class="model-badge">
-          <div class="model-name">T100</div>
-          <div class="model-desc" data-lang="en">100L · Industrial scale</div>
-          <div class="model-desc" data-lang="es">100L · Escala industrial</div>
+
+        <!-- T50 -->
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.6rem;">
+            <div class="model-name" style="font-size:1.6rem;">T50</div>
+            <span style="font-size:0.68rem;background:rgba(0,170,255,0.1);border:1px solid var(--navy-border);border-radius:999px;padding:0.2rem 0.6rem;color:var(--blue);font-family:'Exo 2',sans-serif;letter-spacing:0.08em;" data-lang="en">Pro</span>
+            <span style="font-size:0.68rem;background:rgba(0,170,255,0.1);border:1px solid var(--navy-border);border-radius:999px;padding:0.2rem 0.6rem;color:var(--blue);font-family:'Exo 2',sans-serif;letter-spacing:0.08em;" data-lang="es">Pro</span>
+          </div>
+          <ul>
+            <li data-lang="en">40L liquid + 50kg dry spreader</li>
+            <li data-lang="es">40L líquido + dispersor seco de 50kg</li>
+            <li data-lang="en">8-axis design · more power and stability</li>
+            <li data-lang="es">Diseño de 8 ejes · mayor potencia y estabilidad</li>
+            <li data-lang="en">Centrifugal nozzles · adjustable droplet size</li>
+            <li data-lang="es">Boquillas centrífugas · tamaño de gota ajustable</li>
+            <li data-lang="en">Up to 80 acres / hour</li>
+            <li data-lang="es">Hasta 80 hectáreas / hora</li>
+            <li data-lang="en">Seeding + liquid + granular in one machine</li>
+            <li data-lang="es">Siembra + líquido + granulado en un solo equipo</li>
+          </ul>
+          <div style="margin-top:0.8rem;font-family:'Exo 2',sans-serif;font-size:0.78rem;color:var(--blue);">~$30,000–$35,000 USD</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:0.15rem;" data-lang="en">Best for: 500+ hectare operations, diverse crops</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:0.15rem;" data-lang="es">Ideal para: operaciones 500+ hectáreas, cultivos variados</div>
+        </div>
+
+        <!-- T100 -->
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.6rem;">
+            <div class="model-name" style="font-size:1.6rem;">T100</div>
+            <span style="font-size:0.68rem;background:rgba(0,170,255,0.1);border:1px solid var(--navy-border);border-radius:999px;padding:0.2rem 0.6rem;color:var(--blue);font-family:'Exo 2',sans-serif;letter-spacing:0.08em;" data-lang="en">Enterprise</span>
+            <span style="font-size:0.68rem;background:rgba(0,170,255,0.1);border:1px solid var(--navy-border);border-radius:999px;padding:0.2rem 0.6rem;color:var(--blue);font-family:'Exo 2',sans-serif;letter-spacing:0.08em;" data-lang="es">Empresarial</span>
+          </div>
+          <ul>
+            <li data-lang="en">100L liquid tank · 100kg dry spreader</li>
+            <li data-lang="es">Tanque 100L · dispersor seco 100kg</li>
+            <li data-lang="en">Industrial-scale coverage per flight</li>
+            <li data-lang="es">Cobertura a escala industrial por vuelo</li>
+            <li data-lang="en">Commercial farms, cooperatives, large estates</li>
+            <li data-lang="es">Fincas comerciales, cooperativas, grandes haciendas</li>
+            <li data-lang="en">Maximum throughput — minimum ground crew</li>
+            <li data-lang="es">Máximo rendimiento — mínimo personal en campo</li>
+          </ul>
+          <div style="margin-top:0.8rem;font-family:'Exo 2',sans-serif;font-size:0.78rem;color:var(--blue);" data-lang="en">Quote on request</div>
+          <div style="margin-top:0.8rem;font-family:'Exo 2',sans-serif;font-size:0.78rem;color:var(--blue);" data-lang="es">Precio según consulta</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:0.15rem;" data-lang="en">Best for: large commercial operations 1,000+ hectares</div>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:0.15rem;" data-lang="es">Ideal para: grandes operaciones comerciales 1,000+ hectáreas</div>
+        </div>
+
+      </div>
+
+      <!-- Mavic 3 Multispectral Add-On -->
+      <div style="margin-top:1.2rem;background:var(--navy-card);border:1px solid rgba(0,212,255,0.25);border-radius:1rem;padding:1.4rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#00d4ff,transparent);"></div>
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:#00d4ff;margin-bottom:0.3rem;" data-lang="en">Add-On · Smart Scouting</div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:#00d4ff;margin-bottom:0.3rem;" data-lang="es">Add-On · Monitoreo Inteligente</div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);">DJI Mavic 3 Multispectral</div>
+          </div>
+          <div style="flex:1;min-width:200px;">
+            <p style="font-size:0.85rem;color:var(--text-body);" data-lang="en">Scans your land with 5 cameras — shows exactly which zones are stressed, where pests are starting, and where you're wasting chemicals. Tells your T30 where to spray more and where to spray less. Saves 20–30% on pesticide costs automatically.</p>
+            <p style="font-size:0.85rem;color:var(--text-body);" data-lang="es">Escanea tu terreno con 5 cámaras — muestra exactamente qué zonas están estresadas, dónde hay plagas y dónde estás desperdiciando químicos. Le dice al T30 dónde fumigar más y dónde menos. Ahorra 20–30% en costos de pesticidas automáticamente.</p>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div style="font-family:'Exo 2',sans-serif;font-size:1rem;font-weight:700;color:#00d4ff;">~$5,000 USD</div>
+            <div style="font-size:0.72rem;color:var(--muted);" data-lang="en">500 acres / single flight · 43 min flight time</div>
+            <div style="font-size:0.72rem;color:var(--muted);" data-lang="es">500 hectáreas / vuelo · 43 min de vuelo</div>
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 
   <div class="wrap">
+
+    <!-- WHY VOLAR TECH -->
+    <section id="why-us" class="fade-in">
+      <div class="section-eyebrow" data-lang="en">Why Volar Tech</div>
+      <div class="section-eyebrow" data-lang="es">Por Qué Volar Tech</div>
+      <h2 class="section-title" data-lang="en">We are not just selling you a drone.</h2>
+      <h2 class="section-title" data-lang="es">No te estamos vendiendo solo un dron.</h2>
+      <p class="section-sub" data-lang="en">Anyone can order a drone from DJI. What we bring is installation, training, remote management and ongoing support — in your language, on your timeline, built around your land.</p>
+      <p class="section-sub" data-lang="es">Cualquiera puede pedir un dron en DJI. Lo que nosotros traemos es instalación, capacitación, gestión remota y soporte continuo — en tu idioma, a tu ritmo, construido alrededor de tu finca.</p>
+      <div class="why-grid">
+        <div class="why-card"><div class="why-icon">🗺️</div><h3 data-lang="en">We Map Your Land</h3><h3 data-lang="es">Mapeamos Tu Finca</h3><p data-lang="en">Every inch of your property gets scanned into a permanent 3D digital map. Your grid, your zones, your routes — saved forever.</p><p data-lang="es">Cada centímetro de tu propiedad queda escaneado en un mapa 3D digital permanente. Tu cuadrícula, tus zonas, tus rutas — guardadas para siempre.</p></div>
+        <div class="why-card"><div class="why-icon">📱</div><h3 data-lang="en">Remote Control, Anywhere</h3><h3 data-lang="es">Control Remoto, Desde Donde Sea</h3><p data-lang="en">Want to change which zones get sprayed this week? Just send us a message. We update the route and push it to your drone remotely. Your worker just presses go.</p><p data-lang="es">¿Querés cambiar qué zonas fumigar esta semana? Solo escríbenos. Actualizamos la ruta y la enviamos al dron a distancia. Tu operador solo presiona el botón.</p></div>
+        <div class="why-card"><div class="why-icon">🎓</div><h3 data-lang="en">We Train Your Team</h3><h3 data-lang="es">Capacitamos a Tu Equipo</h3><p data-lang="en">4–5 days on-site at installation. We train your workers until they are confident. If someone leaves, we retrain the new person via video call.</p><p data-lang="es">4 a 5 días en sitio durante la instalación. Capacitamos a tus trabajadores hasta que dominen el sistema. Si alguien se va, reentrenamos al nuevo por videollamada.</p></div>
+        <div class="why-card"><div class="why-icon">🔧</div><h3 data-lang="en">Full After-Sale Support</h3><h3 data-lang="es">Soporte Total Post-Venta</h3><p data-lang="en">Parts sourcing, remote troubleshooting, firmware updates, route changes. We stay with you for the life of the system — not just the sale.</p><p data-lang="es">Consecución de repuestos, diagnóstico remoto, actualizaciones y cambios de ruta. Estamos contigo por toda la vida del sistema — no solo en la venta.</p></div>
+        <div class="why-card"><div class="why-icon">🌎</div><h3 data-lang="en">Built for This Region</h3><h3 data-lang="es">Hecho Para Esta Región</h3><p data-lang="en">We understand Antioquia terrain, Colombian farms and the reality of operating here. No cookie-cutter solutions. Every setup is custom to your land.</p><p data-lang="es">Entendemos el terreno antioqueño, las fincas colombianas y la realidad de operar aquí. Sin soluciones genéricas. Cada instalación es personalizada para tu finca.</p></div>
+        <div class="why-card"><div class="why-icon">💰</div><h3 data-lang="en">It Pays for Itself</h3><h3 data-lang="es">Se Paga Solo</h3><p data-lang="en">Most farms recover the investment in 3–5 years just from labor and chemical savings. After that, it is pure profit every season.</p><p data-lang="es">La mayoría de fincas recupera la inversión en 3 a 5 años solo con ahorro en jornales y químicos. Después de eso, es pura ganancia cada temporada.</p></div>
+      </div>
+    </section>
 
     <!-- ══════════ FARM AUTOMATION ══════════ -->
     <section id="farm">
@@ -898,6 +1234,160 @@
             <div class="pill-small" data-lang="es">Fincas a orillas del lago</div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ══════════ BATTERY CYCLE ══════════ -->
+    <section id="battery">
+      <div class="section-eyebrow" data-lang="en">The System</div>
+      <div class="section-eyebrow" data-lang="es">El Sistema</div>
+      <h2 class="section-title" data-lang="en">One worker. Three batteries. All day.</h2>
+      <h2 class="section-title" data-lang="es">Un trabajador. Tres baterías. Todo el día.</h2>
+      <p class="section-sub" data-lang="en">This is the cycle that makes the drone run almost nonstop. Your worker's only job is filling the tank and swapping batteries.</p>
+      <p class="section-sub" data-lang="es">Este es el ciclo que hace que el dron vuele casi sin parar. El único trabajo del operador es rellenar el tanque y cambiar la batería.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem;">
+        <div class="step" style="border-color:rgba(0,170,255,0.3);">
+          <div style="font-size:1.8rem;margin-bottom:0.4rem;">🔋</div>
+          <h3 data-lang="en">Battery 1 — Flying</h3>
+          <h3 data-lang="es">Batería 1 — Volando</h3>
+          <p data-lang="en">Active flight spraying the programmed route. Covers ~8–10 acres per tank load. Flies ~20 minutes.</p>
+          <p data-lang="es">Vuelo activo fumigando la ruta programada. Cubre ~8–10 hectáreas por tanque. Vuela ~20 minutos.</p>
+        </div>
+        <div class="step" style="border-color:rgba(0,170,255,0.3);">
+          <div style="font-size:1.8rem;margin-bottom:0.4rem;">⚡</div>
+          <h3 data-lang="en">Battery 2 — Charging</h3>
+          <h3 data-lang="es">Batería 2 — Cargando</h3>
+          <p data-lang="en">The C8000 station charges a full battery in 9–10 minutes. By the time Battery 1 lands, Battery 2 is ready.</p>
+          <p data-lang="es">La estación C8000 carga una batería completa en 9–10 minutos. Para cuando aterriza la Batería 1, la 2 ya está lista.</p>
+        </div>
+        <div class="step" style="border-color:rgba(0,170,255,0.3);">
+          <div style="font-size:1.8rem;margin-bottom:0.4rem;">🛢️</div>
+          <h3 data-lang="en">Worker — Refilling</h3>
+          <h3 data-lang="es">Operador — Rellenando</h3>
+          <p data-lang="en">While the drone lands to swap, the worker refills the 30L tank. This takes 3–4 minutes. Then press go again.</p>
+          <p data-lang="es">Mientras el dron aterriza a cambiar, el operador rellena el tanque de 30L. Tarda 3–4 minutos. Luego a volar de nuevo.</p>
+        </div>
+        <div class="step" style="border-color:rgba(0,212,255,0.4);background:rgba(0,212,255,0.03);">
+          <div style="font-size:1.8rem;margin-bottom:0.4rem;">📱</div>
+          <h3 data-lang="en">You — Anywhere</h3>
+          <h3 data-lang="es">Tú — Desde Donde Estés</h3>
+          <p data-lang="en">We monitor remotely. If you want to change a zone, spray a new area, or adjust the schedule — just message us. We push the new route to the drone in minutes.</p>
+          <p data-lang="es">Monitoreamos a distancia. Si querés cambiar una zona, fumigar un área nueva o ajustar el horario — nos escribís. Enviamos la nueva ruta al dron en minutos.</p>
+        </div>
+      </div>
+
+      <div style="background:var(--navy-card);border:1px solid var(--navy-border);border-radius:1rem;padding:1.4rem;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;text-align:center;">
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.6rem;font-weight:700;color:var(--blue-bright);">320–400</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="en">acres per 8-hour day</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="es">hectáreas por día de 8 horas</div>
+          </div>
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.6rem;font-weight:700;color:var(--blue-bright);">5–10 yrs</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="en">battery lifespan (1,000 cycles)</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="es">vida útil de batería (1,000 ciclos)</div>
+          </div>
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.6rem;font-weight:700;color:var(--blue-bright);">75–90%</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="en">less manual labor required</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="es">menos mano de obra necesaria</div>
+          </div>
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.6rem;font-weight:700;color:var(--blue-bright);">20–30%</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="en">chemical savings from precision</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="es">ahorro en químicos por precisión</div>
+          </div>
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.6rem;font-weight:700;color:var(--blue-bright);">3–5 yrs</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="en">average investment payback</div>
+            <div style="font-size:0.8rem;color:var(--muted);" data-lang="es">recuperación promedio de inversión</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ SAVINGS CALCULATOR ══════════ -->
+    <section id="calculator">
+      <div class="section-eyebrow" data-lang="en">ROI Calculator</div>
+      <div class="section-eyebrow" data-lang="es">Calculadora de ROI</div>
+      <h2 class="section-title" data-lang="en">See how fast it pays for itself</h2>
+      <h2 class="section-title" data-lang="es">Ve qué tan rápido se paga solo</h2>
+      <p class="section-sub" data-lang="en">Enter your farm size and current labor costs. We'll show you the numbers.</p>
+      <p class="section-sub" data-lang="es">Ingresá el tamaño de tu finca y los costos actuales de jornaleros. Te mostramos los números.</p>
+
+      <div style="margin-bottom:0.8rem;">
+        <div class="currency-toggle">
+          <button class="curr-btn active" id="btn-usd" onclick="setCurrency('usd')">USD $</button>
+          <button class="curr-btn" id="btn-cop" onclick="setCurrency('cop')">COP $</button>
+        </div>
+        <span style="font-size:0.75rem;color:var(--muted);" id="exchange-note">1 USD = 4,100 COP (approx.)</span>
+      </div>
+      <div style="background:var(--navy-card);border:1px solid var(--navy-border);border-radius:1.2rem;padding:2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div>
+            <div style="margin-bottom:1rem;">
+              <label style="font-size:0.8rem;color:var(--text-body);display:block;margin-bottom:0.4rem;" data-lang="en">Farm size (hectares)</label>
+              <label style="font-size:0.8rem;color:var(--text-body);display:block;margin-bottom:0.4rem;" data-lang="es">Tamaño de finca (hectáreas)</label>
+              <input type="range" id="calc-hectares" min="10" max="1000" value="100" step="10" oninput="calcROI()" style="width:100%;accent-color:var(--blue);" />
+              <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted);">
+                <span>10</span><span id="hectares-val" style="color:var(--blue);font-weight:600;">100 ha</span><span>1,000</span>
+              </div>
+            </div>
+            <div style="margin-bottom:1rem;">
+              <label style="font-size:0.8rem;color:var(--text-body);display:block;margin-bottom:0.4rem;" data-lang="en">Spraying cycles per year</label>
+              <label style="font-size:0.8rem;color:var(--text-body);display:block;margin-bottom:0.4rem;" data-lang="es">Ciclos de fumigación por año</label>
+              <input type="range" id="calc-cycles" min="1" max="12" value="4" step="1" oninput="calcROI()" style="width:100%;accent-color:var(--blue);" />
+              <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted);">
+                <span>1</span><span id="cycles-val" style="color:var(--blue);font-weight:600;">4 cycles/yr</span><span>12</span>
+              </div>
+            </div>
+            <div>
+              <label style="font-size:0.8rem;color:var(--text-body);display:block;margin-bottom:0.4rem;" data-lang="en">Current labor cost per hectare (USD)</label>
+              <label style="font-size:0.8rem;color:var(--text-body);display:block;margin-bottom:0.4rem;" data-lang="es">Costo actual de jornal por hectárea (USD)</label>
+              <input type="range" id="calc-labor" min="5" max="40" value="18" step="1" oninput="calcROI()" style="width:100%;accent-color:var(--blue);" />
+              <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted);">
+                <span>$5</span><span id="labor-val" style="color:var(--blue);font-weight:600;">$18/ha</span><span>$40</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;align-content:start;">
+            <div style="background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.15);border-radius:0.8rem;padding:1rem;text-align:center;">
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="en">Annual labor cost now</div>
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="es">Costo de jornal anual hoy</div>
+              <div id="result-labor" style="font-family:'Exo 2',sans-serif;font-size:1.3rem;font-weight:700;color:var(--white);">$7,200</div>
+            </div>
+            <div style="background:rgba(0,170,255,0.05);border:1px solid rgba(0,170,255,0.15);border-radius:0.8rem;padding:1rem;text-align:center;">
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="en">Annual cost with drone</div>
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="es">Costo anual con dron</div>
+              <div id="result-drone" style="font-family:'Exo 2',sans-serif;font-size:1.3rem;font-weight:700;color:var(--blue-bright);">$1,200</div>
+            </div>
+            <div style="background:rgba(0,212,100,0.05);border:1px solid rgba(0,212,100,0.2);border-radius:0.8rem;padding:1rem;text-align:center;">
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="en">You save per year</div>
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="es">Ahorras por año</div>
+              <div id="result-savings" style="font-family:'Exo 2',sans-serif;font-size:1.3rem;font-weight:700;color:#4ade80;">$6,000</div>
+            </div>
+            <div style="background:rgba(0,212,100,0.05);border:1px solid rgba(0,212,100,0.2);border-radius:0.8rem;padding:1rem;text-align:center;">
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="en">Drone pays itself in</div>
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="es">El dron se paga solo en</div>
+              <div id="result-payback" style="font-family:'Exo 2',sans-serif;font-size:1.3rem;font-weight:700;color:#4ade80;">3.7 yrs</div>
+            </div>
+            <div style="grid-column:1/-1;background:rgba(0,170,255,0.08);border:1px solid rgba(0,170,255,0.2);border-radius:0.8rem;padding:1rem;text-align:center;">
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="en">10-year total savings</div>
+              <div style="font-size:0.72rem;color:var(--muted);margin-bottom:0.3rem;" data-lang="es">Ahorro total en 10 años</div>
+              <div id="result-10yr" style="font-family:'Exo 2',sans-serif;font-size:1.6rem;font-weight:700;color:var(--blue-bright);">$60,000</div>
+              <div style="font-size:0.7rem;color:var(--muted);margin-top:0.2rem;" data-lang="en">(after drone cost)</div>
+              <div style="font-size:0.7rem;color:var(--muted);margin-top:0.2rem;" data-lang="es">(después del costo del dron)</div>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem;text-align:center;" data-lang="en">* Estimates based on T30 at $22,400. Drone operating cost estimated at $2/ha. Actual results vary by farm type and region.</p>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem;text-align:center;" data-lang="es">* Estimaciones basadas en T30 a $22,400. Costo operativo del dron estimado en $2/ha. Los resultados reales varían según tipo de finca y región.</p>
       </div>
     </section>
 
@@ -1113,6 +1603,226 @@
       </div>
     </section>
 
+    <!-- ══════════ ROBOTIC LAWN MOWERS ══════════ -->
+    <section id="mowers">
+      <div class="section-eyebrow" data-lang="en">Service · Add-On</div>
+      <div class="section-eyebrow" data-lang="es">Servicio · Complemento</div>
+      <h2 class="section-title" data-lang="en">Robotic Lawn Mowers — Set It & Forget It</h2>
+      <h2 class="section-title" data-lang="es">Cortadoras Robot — Ponla y Olvídate</h2>
+      <p class="section-sub" data-lang="en">While your drone handles the crops, a robotic mower keeps the grass around your house, entrance roads and gardens perfect every single day. No worker needed. No noise. Just a clean finca, automatically.</p>
+      <p class="section-sub" data-lang="es">Mientras el dron trabaja los cultivos, una cortadora robot mantiene el pasto alrededor de la casa, las vías de acceso y los jardines perfectos todos los días. Sin trabajador. Sin ruido. Solo una finca impecable, de forma automática.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem;">
+
+        <!-- Model 1: Husqvarna Automower 415X -->
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.5rem;">
+            <span class="badge" data-lang="en">Best Value</span>
+            <span class="badge" data-lang="es">Mejor Precio</span>
+            <span style="font-family:'Exo 2',sans-serif;font-size:0.68rem;color:var(--blue);">~$1,500 USD</span>
+          </div>
+          <h3 data-lang="en">Husqvarna Automower 415X</h3>
+          <h3 data-lang="es">Husqvarna Automower 415X</h3>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.6rem;" data-lang="en">The most trusted name in robotic mowers. Simple, reliable, whisper-quiet.</p>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.6rem;" data-lang="es">La marca más confiable en cortadoras robot. Simple, confiable y silenciosa.</p>
+          <ul>
+            <li data-lang="en">Up to 0.4 acres (1,600 m²) coverage</li>
+            <li data-lang="es">Hasta 0.4 acres (1,600 m²) de cobertura</li>
+            <li data-lang="en">Handles slopes up to 21 degrees</li>
+            <li data-lang="es">Trabaja en pendientes de hasta 21 grados</li>
+            <li data-lang="en">GPS-assisted navigation · App controlled</li>
+            <li data-lang="es">Navegación asistida por GPS · Control por app</li>
+            <li data-lang="en">Auto returns to charge · PIN theft protection</li>
+            <li data-lang="es">Regresa a cargar sola · Antirrobo con PIN</li>
+            <li data-lang="en">Works in rain · Ultra-quiet 58dB operation</li>
+            <li data-lang="es">Funciona bajo lluvia · 58dB, casi no se escucha</li>
+          </ul>
+          <div style="margin-top:0.8rem;font-size:0.72rem;color:var(--muted);" data-lang="en">Best for: house surroundings, garden areas, small finca lawns</div>
+          <div style="margin-top:0.8rem;font-size:0.72rem;color:var(--muted);" data-lang="es">Ideal para: alrededores de la casa, jardines, prados pequeños</div>
+        </div>
+
+        <!-- Model 2: Mammotion LUBA 2 AWD -->
+        <div class="card" style="border-color:rgba(0,170,255,0.35);box-shadow:0 0 30px rgba(0,100,255,0.12);">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.5rem;">
+            <span style="font-size:0.65rem;background:var(--blue);border-radius:999px;padding:0.2rem 0.6rem;color:var(--navy);font-family:'Exo 2',sans-serif;font-weight:700;letter-spacing:0.08em;" data-lang="en">Most Popular</span>
+            <span style="font-size:0.65rem;background:var(--blue);border-radius:999px;padding:0.2rem 0.6rem;color:var(--navy);font-family:'Exo 2',sans-serif;font-weight:700;letter-spacing:0.08em;" data-lang="es">Más Popular</span>
+            <span style="font-family:'Exo 2',sans-serif;font-size:0.68rem;color:var(--blue);">~$2,800 USD</span>
+          </div>
+          <h3 data-lang="en">Mammotion LUBA 2 AWD</h3>
+          <h3 data-lang="es">Mammotion LUBA 2 AWD</h3>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.6rem;" data-lang="en">All-wheel drive beast. Handles rough terrain, steep hills and large properties with zero drama.</p>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.6rem;" data-lang="es">Tracción en las 4 ruedas. Trabaja en terrenos irregulares, pendientes pronunciadas y propiedades grandes sin problema.</p>
+          <ul>
+            <li data-lang="en">Up to 1.25 acres (5,000 m²) — no perimeter wire</li>
+            <li data-lang="es">Hasta 1.25 acres (5,000 m²) — sin cable de perímetro</li>
+            <li data-lang="en">All-wheel drive · 80% slope capability</li>
+            <li data-lang="es">Tracción 4x4 · Pendientes hasta 80%</li>
+            <li data-lang="en">RTK + AI Vision navigation — centimeter precision</li>
+            <li data-lang="es">Navegación RTK + Visión IA — precisión centimétrica</li>
+            <li data-lang="en">Auto weather detection · 180 min runtime</li>
+            <li data-lang="es">Detecta el clima automáticamente · 180 min de uso</li>
+            <li data-lang="en">Solar charging compatible · Anti-theft GPS</li>
+            <li data-lang="es">Compatible con carga solar · GPS antirrobo</li>
+          </ul>
+          <div style="margin-top:0.8rem;font-size:0.72rem;color:var(--muted);" data-lang="en">Best for: large finca lawns, hilly terrain, uneven ground</div>
+          <div style="margin-top:0.8rem;font-size:0.72rem;color:var(--muted);" data-lang="es">Ideal para: prados grandes de finca, terrenos ondulados, suelo irregular</div>
+        </div>
+
+        <!-- Model 3: Segway Navimow Terranox -->
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.5rem;">
+            <span class="badge" data-lang="en">Commercial Grade</span>
+            <span class="badge" data-lang="es">Grado Comercial</span>
+            <span style="font-family:'Exo 2',sans-serif;font-size:0.68rem;color:var(--blue);" data-lang="en">Quote on request</span>
+            <span style="font-family:'Exo 2',sans-serif;font-size:0.68rem;color:var(--blue);" data-lang="es">Precio a consultar</span>
+          </div>
+          <h3 data-lang="en">Segway Navimow Terranox</h3>
+          <h3 data-lang="es">Segway Navimow Terranox</h3>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.6rem;" data-lang="en">Commercial-grade powerhouse. For golf courses, large estates, country clubs and big commercial properties.</p>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.6rem;" data-lang="es">Potencia de nivel comercial. Para campos de golf, grandes haciendas, country clubs y propiedades comerciales grandes.</p>
+          <ul>
+            <li data-lang="en">Up to 6 acres per unit · scalable fleet</li>
+            <li data-lang="es">Hasta 6 acres por unidad · flota escalable</li>
+            <li data-lang="en">Handles 40-degree slopes (84% incline)</li>
+            <li data-lang="es">Trabaja en pendientes de 40 grados (84% inclinación)</li>
+            <li data-lang="en">360° camera · 200+ obstacle avoidance</li>
+            <li data-lang="es">Cámara 360° · Evita 200+ obstáculos</li>
+            <li data-lang="en">No wires, no antennas, no base stations needed</li>
+            <li data-lang="es">Sin cables, sin antenas, sin estaciones base</li>
+            <li data-lang="en">Dual motors · consistent results on any grass type</li>
+            <li data-lang="es">Doble motor · resultados uniformes en cualquier tipo de pasto</li>
+          </ul>
+          <div style="margin-top:0.8rem;font-size:0.72rem;color:var(--muted);" data-lang="en">Best for: large commercial lawns, country clubs, big estates</div>
+          <div style="margin-top:0.8rem;font-size:0.72rem;color:var(--muted);" data-lang="es">Ideal para: céspedes comerciales grandes, country clubs, haciendas</div>
+        </div>
+
+      </div>
+
+      <!-- Mower comparison stat bar -->
+      <div style="background:var(--navy-card);border:1px solid var(--navy-border);border-radius:1rem;padding:1.4rem;">
+        <div style="font-family:'Exo 2',sans-serif;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem;" data-lang="en">Why Add a Robotic Mower</div>
+        <div style="font-family:'Exo 2',sans-serif;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem;" data-lang="es">Por Qué Agregar una Cortadora Robot</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;text-align:center;">
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.4rem;font-weight:700;color:var(--blue-bright);">Daily</div>
+            <div style="font-size:0.78rem;color:var(--muted);" data-lang="en">mowing — automatically</div>
+            <div style="font-size:0.78rem;color:var(--muted);" data-lang="es">corte automático, todos los días</div>
+          </div>
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.4rem;font-weight:700;color:var(--blue-bright);">58dB</div>
+            <div style="font-size:0.78rem;color:var(--muted);" data-lang="en">quiet — quieter than a conversation</div>
+            <div style="font-size:0.78rem;color:var(--muted);" data-lang="es">silenciosa — más callada que una conversación</div>
+          </div>
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.4rem;font-weight:700;color:var(--blue-bright);">$0</div>
+            <div style="font-size:0.78rem;color:var(--muted);" data-lang="en">labor cost after purchase</div>
+            <div style="font-size:0.78rem;color:var(--muted);" data-lang="es">costo de mano de obra después de comprar</div>
+          </div>
+          <div>
+            <div style="font-family:'Exo 2',sans-serif;font-size:1.4rem;font-weight:700;color:var(--blue-bright);">App</div>
+            <div style="font-size:0.78rem;color:var(--muted);" data-lang="en">controlled from anywhere in the world</div>
+            <div style="font-size:0.78rem;color:var(--muted);" data-lang="es">controlada desde cualquier parte del mundo</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ POWER WASHING ══════════ -->
+    <section id="powerwash">
+      <div class="section-eyebrow" data-lang="en">Service · Phase 2</div>
+      <div class="section-eyebrow" data-lang="es">Servicio · Fase 2</div>
+      <h2 class="section-title" data-lang="en">Drone Power Washing</h2>
+      <h2 class="section-title" data-lang="es">Lavado a Presión con Dron</h2>
+      <p class="section-sub" data-lang="en">No scaffolding. No ladders. No risk. We clean buildings, offices, windows, rooftops and solar panels using drone-mounted pressure systems — faster, safer and cheaper than traditional methods.</p>
+      <p class="section-sub" data-lang="es">Sin andamios. Sin escaleras. Sin riesgo. Limpiamos edificios, oficinas, ventanas, techos y paneles solares con sistemas de presión montados en drones — más rápido, más seguro y más económico que los métodos tradicionales.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <span class="badge" data-lang="en">Commercial</span>
+          <span class="badge" data-lang="es">Comercial</span>
+          <h3 data-lang="en">Office & Commercial Buildings</h3>
+          <h3 data-lang="es">Edificios de Oficinas y Comerciales</h3>
+          <ul>
+            <li data-lang="en">Full exterior facade cleaning</li>
+            <li data-lang="es">Limpieza completa de fachada exterior</li>
+            <li data-lang="en">Window washing on high-rise floors</li>
+            <li data-lang="es">Lavado de ventanas en pisos altos</li>
+            <li data-lang="en">Rooftop and terrace cleaning</li>
+            <li data-lang="es">Limpieza de azoteas y terrazas</li>
+            <li data-lang="en">No building access permits needed</li>
+            <li data-lang="es">Sin permisos de acceso al edificio</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="badge" data-lang="en">Residential & Estate</span>
+          <span class="badge" data-lang="es">Residencial y Finca</span>
+          <h3 data-lang="en">Large Homes & Fincas</h3>
+          <h3 data-lang="es">Casas Grandes y Fincas</h3>
+          <ul>
+            <li data-lang="en">Exterior walls, driveways and pools</li>
+            <li data-lang="es">Paredes exteriores, entradas y piscinas</li>
+            <li data-lang="en">Roof tiles and gutters</li>
+            <li data-lang="es">Tejas de techo y canalones</li>
+            <li data-lang="en">Finca structures and animal areas</li>
+            <li data-lang="es">Estructuras de finca y áreas de animales</li>
+            <li data-lang="en">One visit cleans the whole property</li>
+            <li data-lang="es">Una visita limpia toda la propiedad</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="badge" data-lang="en">Solar & Industrial</span>
+          <span class="badge" data-lang="es">Solar e Industrial</span>
+          <h3 data-lang="en">Solar Panels & Industrial</h3>
+          <h3 data-lang="es">Paneles Solares e Industrial</h3>
+          <ul>
+            <li data-lang="en">Solar panels lose 20–30% efficiency when dirty</li>
+            <li data-lang="es">Los paneles sucios pierden 20–30% de eficiencia</li>
+            <li data-lang="en">Drone cleaning restores full output</li>
+            <li data-lang="es">La limpieza con dron restaura la producción total</li>
+            <li data-lang="en">Warehouses, hangars and industrial roofs</li>
+            <li data-lang="es">Bodegas, hangares y techos industriales</li>
+            <li data-lang="en">Scheduled maintenance programs available</li>
+            <li data-lang="es">Programas de mantenimiento programado disponibles</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="badge" data-lang="en">Why Drone</span>
+          <span class="badge" data-lang="es">Por Qué Dron</span>
+          <h3 data-lang="en">Why Drone vs. Traditional</h3>
+          <h3 data-lang="es">Por Qué Dron vs. Tradicional</h3>
+          <ul>
+            <li data-lang="en">No scaffolding cost — saves 40–60% on setup</li>
+            <li data-lang="es">Sin andamios — ahorra 40–60% en montaje</li>
+            <li data-lang="en">Reaches areas impossible for workers</li>
+            <li data-lang="es">Llega a zonas imposibles para trabajadores</li>
+            <li data-lang="en">Completed in hours, not days</li>
+            <li data-lang="es">Completado en horas, no días</li>
+            <li data-lang="en">Zero fall risk for any worker</li>
+            <li data-lang="es">Cero riesgo de caída para cualquier trabajador</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Email capture for power washing -->
+      <div style="margin-top:1.5rem;background:var(--navy-card);border:1px solid var(--navy-border);border-radius:1.2rem;padding:1.8rem;text-align:center;">
+        <div style="font-family:'Exo 2',sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;" data-lang="en">Now Accepting Clients</div>
+        <div style="font-family:'Exo 2',sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;" data-lang="es">Aceptando Clientes Ahora</div>
+        <h3 style="font-family:'Exo 2',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.4rem;" data-lang="en">Get a free power washing quote</h3>
+        <h3 style="font-family:'Exo 2',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.4rem;" data-lang="es">Obtén una cotización gratis de lavado</h3>
+        <p style="font-size:0.85rem;color:var(--text-body);margin-bottom:1rem;" data-lang="en">Tell us your property type and location. We'll send a quote within 24 hours.</p>
+        <p style="font-size:0.85rem;color:var(--text-body);margin-bottom:1rem;" data-lang="es">Dinos el tipo de propiedad y la ubicación. Te enviamos cotización en 24 horas.</p>
+        <form action="https://formspree.io/f/maqdaord" method="POST" style="display:flex;gap:0.6rem;max-width:500px;margin:0 auto;flex-wrap:wrap;">
+          <input type="email" name="email" placeholder="your@email.com" required style="flex:1;min-width:200px;" />
+          <input type="text" name="property" placeholder="Property type / Tipo de propiedad" style="flex:1;min-width:200px;" />
+          <input type="hidden" name="source" value="power-washing-capture" />
+          <button type="submit" class="btn-primary" style="white-space:nowrap;">
+            <span data-lang="en">Get Quote →</span>
+            <span data-lang="es">Cotizar →</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
     <!-- ══════════ NOT FOR EVERYONE ══════════ -->
     <section id="who">
       <div class="section-eyebrow" data-lang="en">Who This Is For</div>
@@ -1176,8 +1886,43 @@
           <h3 data-lang="es">¿Hacen lavado de edificios?</h3>
           <p data-lang="en">Yes. We handle farm automation, power washing, window cleaning, inspections and real estate media.</p>
           <p data-lang="es">Sí. Hacemos automatización de fincas, lavado a presión, limpieza de ventanas, inspecciones y media inmobiliaria.</p>
+
+          <h3 data-lang="en">What crops can the drone spray?</h3>
+          <h3 data-lang="es">¿Qué cultivos puede fumigar el dron?</h3>
+          <p data-lang="en">Liquid spraying: pesticides, herbicides, fungicides, liquid fertilizers, growth regulators. Dry spreading (T50/T100): granular fertilizer, seeds, pellets. Works on coffee, rice, corn, sugar cane, pasture, fruit trees, vineyards, and vegetables.</p>
+          <p data-lang="es">Fumigación líquida: pesticidas, herbicidas, fungicidas, fertilizantes líquidos, reguladores de crecimiento. Dispersión seca (T50/T100): fertilizante granulado, semillas y pellets. Funciona en café, arroz, maíz, caña, pastos, frutales, viñedos y verduras.</p>
+
+          <h3 data-lang="en">How does remote route control work?</h3>
+          <h3 data-lang="es">¿Cómo funciona el control remoto de rutas?</h3>
+          <p data-lang="en">We scan your land once and create a permanent 3D digital map. Your entire property is divided into zones. If you want to change which zones to spray or when — just message us. We update the flight plan remotely and push it to the drone. Your worker just presses go.</p>
+          <p data-lang="es">Escaneamos tu terreno una vez y creamos un mapa 3D digital permanente. Tu propiedad se divide en zonas. Si querés cambiar qué zonas fumigar o cuándo — solo escríbenos. Actualizamos el plan de vuelo de forma remota y lo enviamos al dron. Tu operador solo presiona el botón.</p>
+
+          <h3 data-lang="en">What if something breaks?</h3>
+          <h3 data-lang="es">¿Qué pasa si algo se daña?</h3>
+          <p data-lang="en">DJI spare parts are widely available and we help you source them fast. We troubleshoot remotely via video call, and if needed, our team can visit on-site in Colombia. All clients on our support plan get priority response.</p>
+          <p data-lang="es">Los repuestos DJI están ampliamente disponibles y te ayudamos a conseguirlos rápido. Resolvemos problemas de forma remota por videollamada y, si es necesario, nuestro equipo visita la finca en Colombia. Todos los clientes con plan de soporte tienen respuesta prioritaria.</p>
         </div>
       </div>
+    </section>
+
+    <!-- ══════════ EMAIL NEWSLETTER ══════════ -->
+    <section id="newsletter" style="text-align:center;">
+      <div class="section-eyebrow" data-lang="en">Stay in the Loop</div>
+      <div class="section-eyebrow" data-lang="es">Mantente Informado</div>
+      <h2 class="section-title" data-lang="en">Get drone ag updates & offers</h2>
+      <h2 class="section-title" data-lang="es">Recibe novedades y ofertas de drones agrícolas</h2>
+      <p class="section-sub" style="max-width:32rem;margin:0 auto 1.5rem;" data-lang="en">No spam. We send real content: new drone models, crop guides, pricing changes and early access for new markets.</p>
+      <p class="section-sub" style="max-width:32rem;margin:0 auto 1.5rem;" data-lang="es">Sin spam. Enviamos contenido real: nuevos modelos de drones, guías de cultivos, cambios de precios y acceso anticipado a nuevos mercados.</p>
+      <form action="https://formspree.io/f/maqdaord" method="POST" style="display:flex;gap:0.6rem;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center;">
+        <input type="email" name="email" placeholder="your@email.com" required style="flex:1;min-width:220px;" />
+        <input type="hidden" name="source" value="newsletter-signup" />
+        <button type="submit" class="btn-primary">
+          <span data-lang="en">Subscribe →</span>
+          <span data-lang="es">Suscribirse →</span>
+        </button>
+      </form>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:0.8rem;" data-lang="en">Join landowners and operators from Colombia, Puerto Rico and the US East Coast.</p>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:0.8rem;" data-lang="es">Únete a propietarios y operadores de Colombia, Puerto Rico y la Costa Este de EE.UU.</p>
     </section>
 
     <!-- ══════════ CONTACT ══════════ -->
@@ -1191,7 +1936,7 @@
 
       <div class="contact-grid">
         <div>
-          <form action="https://formspree.io/f/YOUR_FORMSPREE_CODE" method="POST">
+          <form action="https://formspree.io/f/maqdaord" method="POST">
             <div class="form-group">
               <label for="name" data-lang="en">Name</label>
               <label for="name" data-lang="es">Nombre</label>
@@ -1309,13 +2054,112 @@
     </div>
   </footer>
 
-  <script>
+<script>
+    // ── LANGUAGE ──
     function setLang(lang) {
       document.body.classList.toggle('lang-es', lang === 'es');
       document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+        btn.classList.toggle('active',
+          (lang === 'en' && btn.textContent === 'English') ||
+          (lang === 'es' && btn.textContent === 'Español')
+        );
       });
     }
+
+    // ── HAMBURGER ──
+    function toggleMenu() {
+      const nav = document.querySelector('.nav-links');
+      const btn = document.getElementById('hamburger');
+      nav.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    // Close menu on link click
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.remove('open');
+        document.getElementById('hamburger').classList.remove('open');
+      });
+    });
+
+    // ── SIDE DOT NAV ──
+    function jumpTo(id) {
+      const el = document.querySelector(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+    const sections = ['hero','farm','battery','calculator','services','mowers','powerwash','how','contact'];
+    function updateDots() {
+      let current = sections[0];
+      sections.forEach(id => {
+        const el = document.getElementById(id) || document.querySelector('[id="' + id + '"]');
+        if (el && el.getBoundingClientRect().top <= 120) current = id;
+      });
+      document.querySelectorAll('.side-dot').forEach(dot => {
+        dot.classList.toggle('active', dot.dataset.section === current);
+      });
+    }
+
+    // ── SCROLL FADE ──
+    const faders = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.08 });
+    faders.forEach(f => observer.observe(f));
+
+    // Add fade-in to all sections
+    document.querySelectorAll('section').forEach(s => s.classList.add('fade-in'));
+    // Re-observe after adding class
+    document.querySelectorAll('section.fade-in').forEach(f => observer.observe(f));
+
+    window.addEventListener('scroll', updateDots);
+    updateDots();
+
+    // ── CURRENCY ──
+    let activeCurrency = 'usd';
+    const COP_RATE = 4100;
+
+    function setCurrency(curr) {
+      activeCurrency = curr;
+      document.getElementById('btn-usd').classList.toggle('active', curr === 'usd');
+      document.getElementById('btn-cop').classList.toggle('active', curr === 'cop');
+      const note = document.getElementById('exchange-note');
+      note.textContent = curr === 'cop' ? '1 USD = 4,100 COP (aprox.)' : '1 USD = 4,100 COP (approx.)';
+      calcROI();
+    }
+
+    function formatMoney(usdVal) {
+      if (activeCurrency === 'cop') {
+        const cop = Math.round(usdVal * COP_RATE);
+        return '$' + cop.toLocaleString('es-CO') + ' COP';
+      }
+      return '$' + Math.round(usdVal).toLocaleString() + ' USD';
+    }
+
+    // ── ROI CALCULATOR ──
+    function calcROI() {
+      const ha = parseInt(document.getElementById('calc-hectares').value);
+      const cycles = parseInt(document.getElementById('calc-cycles').value);
+      const laborPerHa = parseInt(document.getElementById('calc-labor').value);
+      const dronePrice = 22400;
+      const droneOpCostPerHa = 2;
+
+      const annualLaborCost = ha * cycles * laborPerHa;
+      const annualDroneCost = ha * cycles * droneOpCostPerHa;
+      const annualSavings = annualLaborCost - annualDroneCost;
+      const paybackYears = annualSavings > 0 ? (dronePrice / annualSavings) : 0;
+      const tenYrSavings = (annualSavings * 10) - dronePrice;
+
+      document.getElementById('hectares-val').textContent = ha + ' ha';
+      document.getElementById('cycles-val').textContent = cycles + ' cycles/yr';
+      document.getElementById('labor-val').textContent = (activeCurrency === 'cop' ? '$' + (laborPerHa * COP_RATE).toLocaleString('es-CO') + '/ha COP' : '$' + laborPerHa + '/ha USD');
+
+      document.getElementById('result-labor').textContent = formatMoney(annualLaborCost);
+      document.getElementById('result-drone').textContent = formatMoney(annualDroneCost);
+      document.getElementById('result-savings').textContent = annualSavings > 0 ? formatMoney(annualSavings) : formatMoney(0);
+      document.getElementById('result-payback').textContent = annualSavings > 0 ? paybackYears.toFixed(1) + ' yrs' : 'N/A';
+      document.getElementById('result-10yr').textContent = tenYrSavings > 0 ? formatMoney(tenYrSavings) : formatMoney(0);
+    }
+
+    calcROI();
   </script>
 
 </body>
